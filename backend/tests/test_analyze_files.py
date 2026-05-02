@@ -1,11 +1,9 @@
 from fastapi.testclient import TestClient
 
-from app.main import app
+from tests.helpers import assert_analysis_response_shape
 
 
-def test_analyze_files_accepts_valid_single_file_upload() -> None:
-    client = TestClient(app)
-
+def test_analyze_files_accepts_valid_single_file_upload(client: TestClient) -> None:
     response = client.post(
         "/analyze/files",
         files={
@@ -19,20 +17,23 @@ def test_analyze_files_accepts_valid_single_file_upload() -> None:
 
     assert response.status_code == 200
     body = response.json()
+    assert_analysis_response_shape(body)
     assert body["detected_errors"] == ["Missing ROS package"]
     assert body["confidence"] == "high"
     assert body["related_files"] == ["error.log"]
 
 
-def test_analyze_files_accepts_valid_multiple_file_uploads() -> None:
-    client = TestClient(app)
-
+def test_analyze_files_accepts_valid_multiple_file_uploads(client: TestClient) -> None:
     response = client.post(
         "/analyze/files",
         files=[
             (
                 "files",
-                ("terminal.txt", b"roslaunch my_robot bringup.launch", "text/plain"),
+                (
+                    "terminal.txt",
+                    b"colcon build failed. Failed <<< my_robot",
+                    "text/plain",
+                ),
             ),
             (
                 "files",
@@ -50,16 +51,19 @@ def test_analyze_files_accepts_valid_multiple_file_uploads() -> None:
     )
 
     assert response.status_code == 200
-    assert response.json()["related_files"] == [
+    body = response.json()
+    assert_analysis_response_shape(body)
+    assert body["detected_errors"] == ["colcon build error"]
+    assert body["confidence"] == "high"
+    assert body["ros_version_guess"] == "ROS 2"
+    assert body["related_files"] == [
         "terminal.txt",
         "package.xml",
         "CMakeLists.txt",
     ]
 
 
-def test_analyze_files_rejects_unsupported_file_type() -> None:
-    client = TestClient(app)
-
+def test_analyze_files_rejects_unsupported_file_type(client: TestClient) -> None:
     response = client.post(
         "/analyze/files",
         files={"files": ("notes.md", b"# Not supported yet", "text/markdown")},
@@ -69,9 +73,7 @@ def test_analyze_files_rejects_unsupported_file_type() -> None:
     assert "Unsupported file type: notes.md" in response.json()["detail"]
 
 
-def test_analyze_files_rejects_empty_upload_list() -> None:
-    client = TestClient(app)
-
+def test_analyze_files_rejects_empty_upload_list(client: TestClient) -> None:
     response = client.post("/analyze/files")
 
     assert response.status_code == 400

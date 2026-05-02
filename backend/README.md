@@ -254,7 +254,23 @@ Unknown input returns low confidence with practical next debugging steps.
 From the `backend/` folder:
 
 ```powershell
-pytest
+python -m pytest
+```
+
+The tests cover:
+
+- `GET /health`
+- `POST /analyze/text`
+- `POST /analyze/files`
+- Upload validation
+- Rule-based analyzer categories
+- Unknown/no-match analyzer behavior
+- Structured response schema consistency
+
+To confirm Python files compile:
+
+```powershell
+python -m py_compile app\main.py app\api\routes\analyze.py app\api\routes\health.py app\services\ros_analyzer.py app\models\analysis.py
 ```
 
 ## Current Status

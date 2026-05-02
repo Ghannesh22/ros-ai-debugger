@@ -1,18 +1,24 @@
 import pytest
 
+from app.services.ros_analyzer import RULES
 from app.services import analyze_ros_input
+from tests.helpers import assert_analysis_response_shape
 
-EXPECTED_RESPONSE_FIELDS = {
-    "summary",
-    "detected_errors",
-    "likely_root_causes",
-    "recommended_fixes",
-    "verification_commands",
-    "confidence",
-    "ros_version_guess",
-    "related_files",
-    "next_debugging_steps",
+EXPECTED_MVP_RULE_CATEGORIES = {
+    "Missing ROS package",
+    "Node/executable not found",
+    "Python import error",
+    "TF frame missing",
+    "Gazebo plugin load error",
+    "catkin_make build error",
+    "colcon build error",
+    "ROS_MASTER_URI issue",
+    "ROS 2 DDS or ROS_DOMAIN_ID issue",
 }
+
+
+def test_ros_analyzer_rule_table_matches_mvp_categories() -> None:
+    assert {rule.category for rule in RULES} == EXPECTED_MVP_RULE_CATEGORIES
 
 
 @pytest.mark.parametrize(
@@ -124,13 +130,24 @@ def test_ros_analyzer_response_structure_is_consistent(text: str) -> None:
     )
     response_body = response.model_dump()
 
-    assert set(response_body) == EXPECTED_RESPONSE_FIELDS
-    assert isinstance(response.summary, str)
-    assert isinstance(response.detected_errors, list)
-    assert isinstance(response.likely_root_causes, list)
-    assert isinstance(response.recommended_fixes, list)
-    assert isinstance(response.verification_commands, list)
-    assert response.confidence in {"low", "medium", "high"}
-    assert isinstance(response.ros_version_guess, str)
+    assert_analysis_response_shape(response_body)
     assert response.related_files == ["terminal.log"]
-    assert isinstance(response.next_debugging_steps, list)
+
+
+def test_ros_analyzer_combines_multiple_detected_rules_without_duplicate_commands() -> None:
+    response = analyze_ros_input(
+        text=(
+            "ModuleNotFoundError: No module named 'serial'\n"
+            "colcon build failed. Failed <<< my_robot"
+        )
+    )
+
+    assert response.detected_errors == [
+        "Python import error",
+        "colcon build error",
+    ]
+    assert response.confidence == "high"
+    assert response.ros_version_guess == "ROS 2"
+    assert len(response.verification_commands) == len(
+        set(response.verification_commands)
+    )

@@ -39,7 +39,7 @@ Phase 2: Backend MVP
 
 ## 4. Current Sub-Phase
 
-Phase 2.6: Add structured JSON response - complete
+Phase 2.7: Add backend tests - complete
 
 ## 5. Completed Sub-Phases
 
@@ -59,10 +59,10 @@ Phase 2.6: Add structured JSON response - complete
 - Phase 2.4: Added the `POST /analyze/files` endpoint skeleton with safe text-only upload handling, supported filename validation, placeholder response behavior, and file upload tests.
 - Phase 2.5: Implemented the first rule-based ROS analyzer and connected it to text and file analysis endpoints.
 - Phase 2.6: Formalized structured analyzer responses with documented Pydantic fields, constrained confidence values, consistent response tests, and high/medium/low confidence behavior.
+- Phase 2.7: Strengthened backend tests with shared fixtures/helpers, endpoint schema assertions, analyzer category coverage, unknown/no-match checks, and multi-rule response checks.
 
 ## 6. Pending Sub-Phases
 
-- Phase 2.7: Add backend tests.
 - Phase 2.8: Update memory file, commit, push, and tag.
 
 ## 7. Important Decisions
@@ -119,6 +119,8 @@ Files:
 - `backend/app/models/__init__.py`
 - `backend/app/models/analysis.py`
 - `backend/tests/__init__.py`
+- `backend/tests/conftest.py`
+- `backend/tests/helpers.py`
 - `backend/tests/test_health.py`
 - `backend/tests/test_analyze_text.py`
 - `backend/tests/test_analyze_files.py`
@@ -213,6 +215,17 @@ Files updated in Phase 2.6:
 - `backend/README.md`
 - `docs/project_memory.md`
 
+Files updated in Phase 2.7:
+
+- `backend/tests/conftest.py`
+- `backend/tests/helpers.py`
+- `backend/tests/test_health.py`
+- `backend/tests/test_analyze_text.py`
+- `backend/tests/test_analyze_files.py`
+- `backend/tests/test_ros_analyzer.py`
+- `backend/README.md`
+- `docs/project_memory.md`
+
 ## 9. GitHub Status
 
 - Local Git repository initialized on branch `main`.
@@ -239,6 +252,7 @@ Files updated in Phase 2.6:
 - Phase 2.4 changes are committed locally with message `Phase 2.4: add file analysis endpoint skeleton`.
 - Phase 2.5 changes are committed locally with message `Phase 2.5: implement initial rule-based ROS analyzer`.
 - Phase 2.6 changes are committed locally with message `Phase 2.6: formalize structured analyzer responses`.
+- Phase 2.7 changes are committed locally with message `Phase 2.7: strengthen backend analyzer tests`.
 
 ## 10. Known Issues
 
@@ -249,11 +263,11 @@ Files updated in Phase 2.6:
 - Analyzer confidence is now formalized as `high`, `medium`, or `low`.
 - Rule-based analyzer is intentionally simple and may miss uncommon ROS error formats.
 - Frontend contains placeholders only; no frontend application code exists yet.
-- Backend currently has health endpoint, endpoint validation, upload handling, analyzer rule tests, and response structure consistency tests.
+- Backend currently has health endpoint, endpoint validation, upload handling, analyzer rule coverage, unknown/no-match, multi-rule, and response structure consistency tests.
 
 ## 11. Next Recommended Action
 
-Proceed to Phase 2.7: add backend tests.
+Proceed to Phase 2.8: update memory file, commit, push, and tag the backend MVP checkpoint.
 
 ## 12. Session Notes
 
@@ -274,4 +288,5 @@ Proceed to Phase 2.7: add backend tests.
 - Phase 2.4 added `POST /analyze/files`, safe text-only upload reading, supported filename validation, clear errors for unsupported or missing uploads, documentation for the upload endpoint, and tests for single file, multiple files, unsupported files, and empty uploads.
 - Phase 2.5 added `backend/app/services/ros_analyzer.py` with rule-based detection for missing packages, missing nodes/executables, Python imports, TF frames, Gazebo plugins, catkin builds, colcon builds, ROS_MASTER_URI, and ROS 2 DDS/domain issues. Both analysis endpoints now call the analyzer service, and tests cover every required MVP rule plus unknown input.
 - Phase 2.6 documented and constrained the response model, added medium confidence partial-match behavior, kept unknown results beginner-friendly, documented the final JSON schema in `backend/README.md`, and added tests for consistent response fields.
+- Phase 2.7 added shared test fixtures and response schema helpers, strengthened endpoint tests for text and file analysis, verified all MVP analyzer categories are represented, checked multi-rule output deduplication, and documented backend test commands.
 - Frontend implementation must not start until Phase 3.
