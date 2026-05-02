@@ -35,11 +35,11 @@ Out of scope for MVP 1:
 
 ## 3. Current Phase
 
-Phase 0: Planning and repository setup - complete
+Phase 1: Documentation and architecture
 
 ## 4. Current Sub-Phase
 
-Phase 0.5: Commit and prepare GitHub push - complete
+Phase 1.1: Create detailed project plan - complete
 
 ## 5. Completed Sub-Phases
 
@@ -48,10 +48,10 @@ Phase 0.5: Commit and prepare GitHub push - complete
 - Phase 0.3: Created initial documentation.
 - Phase 0.4: Improved and finalized the reusable project memory/progress structure.
 - Phase 0.5: Prepared first GitHub checkpoint with `AGENTS.md`, final Phase 0 memory updates, local Git setup, GitHub remote setup, checkpoint commit, and release tag.
+- Phase 1.1: Created a detailed ROS AI Debugger project plan.
 
 ## 6. Pending Sub-Phases
 
-- Phase 1.1: Create detailed project plan.
 - Phase 1.2: Create system architecture.
 - Phase 1.3: Create ROS error taxonomy.
 - Phase 1.4: Review and finalize `AGENTS.md`.
@@ -98,6 +98,11 @@ Files:
 - `docs/mvp_scope.md`
 - `docs/github_workflow.md`
 
+Files updated in Phase 1.1:
+
+- `docs/project_plan.md`
+- `docs/project_memory.md`
+
 ## 9. GitHub Status
 
 - Local Git repository initialized on branch `main`.
@@ -110,6 +115,7 @@ Files:
 - Branch `main` pushed to GitHub.
 - Tag `v0.1.0-project-foundation` pushed to GitHub.
 - Phase 0 checkpoint is available on GitHub.
+- Phase 1.1 changes are committed locally.
 
 ## 10. Known Issues
 
@@ -119,7 +125,7 @@ Files:
 
 ## 11. Next Recommended Action
 
-Proceed to Phase 1.1: create the detailed project plan.
+Proceed to Phase 1.2: create the system architecture document.
 
 ## 12. Session Notes
 
@@ -128,5 +134,6 @@ Proceed to Phase 1.1: create the detailed project plan.
 - Phase 0.3 created initial beginner-friendly documentation and GitHub workflow notes.
 - Phase 0.4 converted this memory file into a reusable progress system.
 - Phase 0.5 created `AGENTS.md`, initialized Git, configured GitHub remote, and prepared the first checkpoint commit/tag.
+- Phase 1.1 replaced the generic project plan with a specific beginner-friendly ROS AI Debugger plan covering vision, users, problem, solution, MVP scope, features, non-goals, success criteria, roadmap, and risks.
 - Backend implementation must not start until Phase 2.
 - Frontend implementation must not start until Phase 3.
