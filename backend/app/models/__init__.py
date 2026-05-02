@@ -1,5 +1,5 @@
 """Pydantic models for request and response schemas."""
 
-from app.models.analysis import AnalysisResponse, AnalyzeTextRequest
+from app.models.analysis import AnalysisResponse, AnalyzeTextRequest, ConfidenceLevel
 
-__all__ = ["AnalysisResponse", "AnalyzeTextRequest"]
+__all__ = ["AnalysisResponse", "AnalyzeTextRequest", "ConfidenceLevel"]

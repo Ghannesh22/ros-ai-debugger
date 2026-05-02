@@ -2,7 +2,7 @@
 
 This folder contains the FastAPI backend for ROS AI Debugger.
 
-Phase 2.5 adds the first rule-based ROS analyzer. It detects common ROS and ROS 2 error patterns from pasted text and uploaded text files. It does not use an LLM yet.
+Phase 2.6 formalizes the structured analyzer response system. The backend detects common ROS and ROS 2 error patterns from pasted text and uploaded text files, then returns a consistent JSON diagnosis. It does not use an LLM yet.
 
 ## Structure
 
@@ -122,6 +122,44 @@ Example response:
 }
 ```
 
+## Structured Analysis Response
+
+Both analysis endpoints return the same JSON shape:
+
+```json
+{
+  "summary": "Short explanation of the most likely issue.",
+  "detected_errors": ["Detected ROS error category"],
+  "likely_root_causes": ["Likely reason the issue happened"],
+  "recommended_fixes": ["Practical fix the user can try"],
+  "verification_commands": ["Command the user can run to verify"],
+  "confidence": "high",
+  "ros_version_guess": "ROS 1, ROS 2, or unknown",
+  "related_files": ["filename.log"],
+  "next_debugging_steps": ["What to inspect next"]
+}
+```
+
+Field meanings:
+
+- `summary`: Beginner-friendly explanation of the main issue.
+- `detected_errors`: One or more detected ROS error categories.
+- `likely_root_causes`: Practical reasons the error may have happened.
+- `recommended_fixes`: Safe actions the user can try manually.
+- `verification_commands`: Commands to run in the user's ROS environment.
+- `confidence`: `high`, `medium`, or `low`.
+- `ros_version_guess`: Best guess from user hint, command context, or matched rule.
+- `related_files`: Uploaded or provided filenames related to the diagnosis.
+- `next_debugging_steps`: Useful follow-up checks if the first fix does not work.
+
+Confidence behavior:
+
+- `high`: Strong exact pattern match, such as `Resource not found`, `ModuleNotFoundError`, or `Failed <<<`.
+- `medium`: Partial or weaker match, such as text mentioning a missing executable without the exact ROS error line.
+- `low`: Unknown input or no useful rule match.
+
+Unknown input still returns the same JSON shape with beginner-friendly next steps.
+
 ## Try The File Analysis Endpoint
 
 The file analysis endpoint accepts one or more uploaded ROS-related text files and returns the same planned structured response shape.
@@ -197,7 +235,7 @@ Example response:
 
 ## Current Rule-Based Analyzer Coverage
 
-Phase 2.5 detects these first MVP rules:
+The first rule-based analyzer detects these MVP rules:
 
 - Missing ROS package
 - Node/executable not found
@@ -227,4 +265,5 @@ pytest
 - Analyze text endpoint is connected to the first rule-based analyzer.
 - Analyze files endpoint is connected to the first rule-based analyzer.
 - Rule-based analyzer logic covers the first MVP error categories listed above.
+- Structured responses are validated with typed Pydantic models.
 - LLM-based analysis is not implemented yet.

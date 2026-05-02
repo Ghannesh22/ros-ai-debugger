@@ -2,7 +2,7 @@ import re
 from collections.abc import Iterable
 from dataclasses import dataclass
 
-from app.models import AnalysisResponse
+from app.models import AnalysisResponse, ConfidenceLevel
 
 
 @dataclass(frozen=True)
@@ -20,8 +20,14 @@ class AnalyzerRule:
     recommended_fixes: tuple[str, ...]
     verification_commands: tuple[str, ...]
     next_debugging_steps: tuple[str, ...]
-    confidence: str = "high"
+    partial_patterns: tuple[str, ...] = ()
     ros_version_guess: str | None = None
+
+
+@dataclass(frozen=True)
+class RuleMatch:
+    rule: AnalyzerRule
+    confidence: ConfidenceLevel
 
 
 RULES: tuple[AnalyzerRule, ...] = (
@@ -55,6 +61,11 @@ RULES: tuple[AnalyzerRule, ...] = (
         next_debugging_steps=(
             "Find the missing module name in the traceback.",
             "Check which Python executable the ROS node is using.",
+        ),
+        partial_patterns=(
+            r"python.+import",
+            r"import.+python",
+            r"missing.+python.+module",
         ),
     ),
     AnalyzerRule(
@@ -90,6 +101,11 @@ RULES: tuple[AnalyzerRule, ...] = (
             "List the TF tree and confirm both frame names exist.",
             "Check whether the missing transform should be static or dynamic.",
         ),
+        partial_patterns=(
+            r"tf.+frame",
+            r"frame.+missing",
+            r"missing.+frame",
+        ),
     ),
     AnalyzerRule(
         category="Gazebo plugin load error",
@@ -123,6 +139,11 @@ RULES: tuple[AnalyzerRule, ...] = (
         next_debugging_steps=(
             "Identify the exact plugin library name from the error.",
             "Check whether that library exists in the expected install path.",
+        ),
+        partial_patterns=(
+            r"gazebo.+plugin",
+            r"plugin.+gazebo",
+            r"missing.+gazebo.+plugin",
         ),
     ),
     AnalyzerRule(
@@ -160,6 +181,11 @@ RULES: tuple[AnalyzerRule, ...] = (
             "Confirm whether the package should come from apt, source code, or another workspace.",
             "Check that the terminal is sourced for the right ROS distribution.",
         ),
+        partial_patterns=(
+            r"missing.+ros.+package",
+            r"ros.+package.+missing",
+            r"package.+missing",
+        ),
     ),
     AnalyzerRule(
         category="Node/executable not found",
@@ -196,6 +222,12 @@ RULES: tuple[AnalyzerRule, ...] = (
             "List executables for the package and compare names exactly.",
             "Check CMakeLists.txt, setup.py, or launch file executable names.",
         ),
+        partial_patterns=(
+            r"missing.+node",
+            r"node.+missing",
+            r"missing.+executable",
+            r"executable.+missing",
+        ),
     ),
     AnalyzerRule(
         category="ROS_MASTER_URI issue",
@@ -230,6 +262,10 @@ RULES: tuple[AnalyzerRule, ...] = (
         next_debugging_steps=(
             "Confirm that roscore is running in a reachable terminal.",
             "Check that every ROS 1 shell has the same master URI settings.",
+        ),
+        partial_patterns=(
+            r"ros.+master",
+            r"master.+uri",
         ),
         ros_version_guess="ROS 1",
     ),
@@ -270,6 +306,11 @@ RULES: tuple[AnalyzerRule, ...] = (
             "Compare ROS_DOMAIN_ID in each terminal.",
             "Check whether firewall or VPN settings block DDS discovery.",
         ),
+        partial_patterns=(
+            r"domain id",
+            r"dds",
+            r"ros 2.+discovery",
+        ),
         ros_version_guess="ROS 2",
     ),
     AnalyzerRule(
@@ -303,6 +344,10 @@ RULES: tuple[AnalyzerRule, ...] = (
         next_debugging_steps=(
             "Scroll to the first error above the final build failure line.",
             "Build again after installing dependencies and sourcing the environment.",
+        ),
+        partial_patterns=(
+            r"catkin_make",
+            r"catkin.+build",
         ),
         ros_version_guess="ROS 1",
     ),
@@ -338,6 +383,7 @@ RULES: tuple[AnalyzerRule, ...] = (
             "Find the first package after the Failed <<< line.",
             "Rerun colcon for only that package with console_direct+ output.",
         ),
+        partial_patterns=(r"colcon",),
         ros_version_guess="ROS 2",
     ),
 )
@@ -355,11 +401,13 @@ def analyze_ros_input(
     combined_text = _combined_text(text=text, uploaded_files=uploaded_files)
     normalized_text = _normalize_text(combined_text)
 
-    matched_rules = [
-        rule for rule in RULES if _rule_matches(rule, normalized_text)
+    matches = [
+        rule_match
+        for rule in RULES
+        if (rule_match := _match_rule(rule, normalized_text)) is not None
     ]
 
-    if not matched_rules:
+    if not matches:
         return _unknown_response(
             normalized_text=normalized_text,
             related_files=related_files,
@@ -367,34 +415,34 @@ def analyze_ros_input(
         )
 
     return AnalysisResponse(
-        summary=_summary_for_rules(matched_rules),
-        detected_errors=[rule.category for rule in matched_rules],
+        summary=_summary_for_rules([match.rule for match in matches]),
+        detected_errors=[match.rule.category for match in matches],
         likely_root_causes=_dedupe(
             cause
-            for rule in matched_rules
-            for cause in rule.likely_root_causes
+            for match in matches
+            for cause in match.rule.likely_root_causes
         ),
         recommended_fixes=_dedupe(
             fix
-            for rule in matched_rules
-            for fix in rule.recommended_fixes
+            for match in matches
+            for fix in match.rule.recommended_fixes
         ),
         verification_commands=_dedupe(
             command
-            for rule in matched_rules
-            for command in rule.verification_commands
+            for match in matches
+            for command in match.rule.verification_commands
         ),
-        confidence=_highest_confidence(rule.confidence for rule in matched_rules),
+        confidence=_highest_confidence(match.confidence for match in matches),
         ros_version_guess=_guess_ros_version(
             normalized_text=normalized_text,
             ros_version_hint=ros_version_hint,
-            matched_rules=matched_rules,
+            matched_rules=[match.rule for match in matches],
         ),
         related_files=related_files,
         next_debugging_steps=_dedupe(
             step
-            for rule in matched_rules
-            for step in rule.next_debugging_steps
+            for match in matches
+            for step in match.rule.next_debugging_steps
         ),
     )
 
@@ -421,10 +469,20 @@ def _normalize_text(text: str) -> str:
     return text.replace("\r\n", "\n").replace("\r", "\n").lower()
 
 
-def _rule_matches(rule: AnalyzerRule, normalized_text: str) -> bool:
+def _match_rule(rule: AnalyzerRule, normalized_text: str) -> RuleMatch | None:
+    if _patterns_match(rule.patterns, normalized_text):
+        return RuleMatch(rule=rule, confidence="high")
+
+    if _patterns_match(rule.partial_patterns, normalized_text):
+        return RuleMatch(rule=rule, confidence="medium")
+
+    return None
+
+
+def _patterns_match(patterns: tuple[str, ...], normalized_text: str) -> bool:
     return any(
         re.search(pattern, normalized_text, flags=re.DOTALL)
-        for pattern in rule.patterns
+        for pattern in patterns
     )
 
 
@@ -437,7 +495,7 @@ def _summary_for_rules(matched_rules: list[AnalyzerRule]) -> str:
     return f"{primary.summary} Also detected: {other_categories}."
 
 
-def _highest_confidence(confidences: list[str]) -> str:
+def _highest_confidence(confidences: Iterable[ConfidenceLevel]) -> ConfidenceLevel:
     order = {"low": 0, "medium": 1, "high": 2}
     return max(confidences, key=lambda confidence: order[confidence])
 
