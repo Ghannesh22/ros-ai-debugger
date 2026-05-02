@@ -18,17 +18,10 @@ def test_analyze_files_accepts_valid_single_file_upload() -> None:
     )
 
     assert response.status_code == 200
-    assert response.json() == {
-        "summary": "Files received for analysis. Analyzer logic will be added in Phase 2.5.",
-        "detected_errors": [],
-        "likely_root_causes": [],
-        "recommended_fixes": [],
-        "verification_commands": [],
-        "confidence": "low",
-        "ros_version_guess": "unknown",
-        "related_files": ["error.log"],
-        "next_debugging_steps": [],
-    }
+    body = response.json()
+    assert body["detected_errors"] == ["Missing ROS package"]
+    assert body["confidence"] == "high"
+    assert body["related_files"] == ["error.log"]
 
 
 def test_analyze_files_accepts_valid_multiple_file_uploads() -> None:

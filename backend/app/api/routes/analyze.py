@@ -1,8 +1,9 @@
 from typing import Annotated
 
-from fastapi import APIRouter, File, HTTPException, UploadFile
+from fastapi import APIRouter, File, Form, HTTPException, UploadFile
 
 from app.models import AnalysisResponse, AnalyzeTextRequest
+from app.services import UploadedFileContext, analyze_ros_input
 
 router = APIRouter(prefix="/analyze", tags=["analysis"])
 
@@ -34,39 +35,19 @@ def _is_supported_filename(filename: str) -> bool:
     )
 
 
-def _placeholder_response(
-    *,
-    summary: str,
-    related_files: list[str],
-    ros_version_guess: str = "unknown",
-) -> AnalysisResponse:
-    return AnalysisResponse(
-        summary=summary,
-        detected_errors=[],
-        likely_root_causes=[],
-        recommended_fixes=[],
-        verification_commands=[],
-        confidence="low",
-        ros_version_guess=ros_version_guess,
-        related_files=related_files,
-        next_debugging_steps=[],
-    )
-
-
 @router.post("/text", response_model=AnalysisResponse)
 def analyze_text(request: AnalyzeTextRequest) -> AnalysisResponse:
-    related_files = [request.filename] if request.filename else []
-
-    return _placeholder_response(
-        summary="Text received for analysis. Analyzer logic will be added in Phase 2.5.",
-        ros_version_guess=request.ros_version_hint or "unknown",
-        related_files=related_files,
+    return analyze_ros_input(
+        text=request.text,
+        filename=request.filename,
+        ros_version_hint=request.ros_version_hint,
     )
 
 
 @router.post("/files", response_model=AnalysisResponse)
 async def analyze_files(
     files: Annotated[list[UploadFile] | None, File()] = None,
+    ros_version_hint: Annotated[str | None, Form()] = None,
 ) -> AnalysisResponse:
     if not files:
         raise HTTPException(
@@ -74,7 +55,7 @@ async def analyze_files(
             detail="At least one file must be uploaded.",
         )
 
-    related_files: list[str] = []
+    uploaded_file_context: list[UploadedFileContext] = []
 
     for uploaded_file in files:
         filename = uploaded_file.filename or ""
@@ -87,10 +68,12 @@ async def analyze_files(
                 ),
             )
 
-        await uploaded_file.read()
-        related_files.append(filename)
+        content = (await uploaded_file.read()).decode("utf-8", errors="replace")
+        uploaded_file_context.append(
+            UploadedFileContext(filename=filename, content=content)
+        )
 
-    return _placeholder_response(
-        summary="Files received for analysis. Analyzer logic will be added in Phase 2.5.",
-        related_files=related_files,
+    return analyze_ros_input(
+        ros_version_hint=ros_version_hint,
+        uploaded_files=uploaded_file_context,
     )

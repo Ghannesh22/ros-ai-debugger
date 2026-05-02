@@ -15,17 +15,10 @@ def test_analyze_text_accepts_valid_text_input() -> None:
     )
 
     assert response.status_code == 200
-    assert response.json() == {
-        "summary": "Text received for analysis. Analyzer logic will be added in Phase 2.5.",
-        "detected_errors": [],
-        "likely_root_causes": [],
-        "recommended_fixes": [],
-        "verification_commands": [],
-        "confidence": "low",
-        "ros_version_guess": "unknown",
-        "related_files": ["terminal.txt"],
-        "next_debugging_steps": [],
-    }
+    body = response.json()
+    assert body["detected_errors"] == ["Missing ROS package"]
+    assert body["confidence"] == "high"
+    assert body["related_files"] == ["terminal.txt"]
 
 
 def test_analyze_text_rejects_empty_text() -> None:
@@ -42,7 +35,7 @@ def test_analyze_text_uses_ros_version_hint_when_provided() -> None:
     response = client.post(
         "/analyze/text",
         json={
-            "text": "ros2 launch demo_nodes_cpp talker_listener.launch.py",
+            "text": "The robot is not moving.",
             "ros_version_hint": "ROS 2",
         },
     )
