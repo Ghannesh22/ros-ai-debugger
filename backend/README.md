@@ -46,12 +46,36 @@ The backend will start locally, usually at:
 http://127.0.0.1:8000
 ```
 
+## Check The Health Endpoint
+
+After starting the backend, open this URL in a browser or send a request:
+
+```text
+http://127.0.0.1:8000/health
+```
+
+Expected response:
+
+```json
+{
+  "status": "ok",
+  "service": "ros-ai-debugger-backend"
+}
+```
+
+## Run Backend Tests
+
+From the `backend/` folder:
+
+```powershell
+pytest
+```
+
 ## Current Status
 
 - FastAPI app entry point exists.
-- API router placeholder exists.
-- Health endpoint is not implemented yet.
+- API router exists.
+- Health endpoint is implemented.
 - Analyze text endpoint is not implemented yet.
 - Analyze files endpoint is not implemented yet.
 - Rule-based analyzer logic is not implemented yet.
-
