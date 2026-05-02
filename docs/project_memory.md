@@ -107,7 +107,9 @@ Files:
 - Repository visibility: private.
 - First checkpoint commit message: `Phase 0 complete: planning, structure, documentation, and memory system`.
 - First release-foundation tag created: `v0.1.0-project-foundation`.
-- Phase 0 checkpoint is ready to push to GitHub.
+- Branch `main` pushed to GitHub.
+- Tag `v0.1.0-project-foundation` pushed to GitHub.
+- Phase 0 checkpoint is available on GitHub.
 
 ## 10. Known Issues
 
