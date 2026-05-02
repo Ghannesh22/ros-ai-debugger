@@ -63,6 +63,44 @@ Expected response:
 }
 ```
 
+## Try The Text Analysis Endpoint
+
+The text analysis endpoint accepts pasted text and returns the planned structured response shape.
+
+Analyzer logic is not implemented yet. Until Phase 2.5, this endpoint returns a placeholder response.
+
+Endpoint:
+
+```text
+POST http://127.0.0.1:8000/analyze/text
+```
+
+Example request body:
+
+```json
+{
+  "text": "Package 'demo_nodes_cpp' not found",
+  "filename": "terminal.txt",
+  "ros_version_hint": "ROS 2"
+}
+```
+
+Example placeholder response:
+
+```json
+{
+  "summary": "Text received for analysis. Analyzer logic will be added in Phase 2.5.",
+  "detected_errors": [],
+  "likely_root_causes": [],
+  "recommended_fixes": [],
+  "verification_commands": [],
+  "confidence": "low",
+  "ros_version_guess": "ROS 2",
+  "related_files": ["terminal.txt"],
+  "next_debugging_steps": []
+}
+```
+
 ## Run Backend Tests
 
 From the `backend/` folder:
@@ -76,6 +114,6 @@ pytest
 - FastAPI app entry point exists.
 - API router exists.
 - Health endpoint is implemented.
-- Analyze text endpoint is not implemented yet.
+- Analyze text endpoint skeleton is implemented with placeholder response.
 - Analyze files endpoint is not implemented yet.
 - Rule-based analyzer logic is not implemented yet.
