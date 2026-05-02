@@ -35,11 +35,11 @@ Out of scope for MVP 1:
 
 ## 3. Current Phase
 
-Phase 1: Documentation and architecture - complete
+Phase 2: Backend MVP
 
 ## 4. Current Sub-Phase
 
-Phase 1.5: Finalize Phase 1, update memory file, commit, push, and tag - complete
+Phase 2.1: Set up FastAPI backend - complete
 
 ## 5. Completed Sub-Phases
 
@@ -53,10 +53,10 @@ Phase 1.5: Finalize Phase 1, update memory file, commit, push, and tag - complet
 - Phase 1.3: Created the MVP 1 ROS error taxonomy for rule-based analyzer implementation.
 - Phase 1.4: Refined `AGENTS.md` with project identity, global rules, agent roles, coding rules, Git rules, safety rules, and memory rules.
 - Phase 1.5: Finalized Phase 1, updated status documentation, prepared GitHub checkpoint, and created the Phase 1 release tag.
+- Phase 2.1: Set up the FastAPI backend skeleton without analyzer or endpoint logic.
 
 ## 6. Pending Sub-Phases
 
-- Phase 2.1: Set up FastAPI backend.
 - Phase 2.2: Create health endpoint.
 - Phase 2.3: Create text analysis endpoint.
 - Phase 2.4: Create file analysis endpoint.
@@ -107,6 +107,16 @@ Files:
 - `docs/github_workflow.md`
 - `docs/system_architecture.md`
 - `docs/ros_error_taxonomy.md`
+- `backend/app/__init__.py`
+- `backend/app/main.py`
+- `backend/app/api/__init__.py`
+- `backend/app/api/routes/__init__.py`
+- `backend/app/core/__init__.py`
+- `backend/app/services/__init__.py`
+- `backend/app/models/__init__.py`
+- `backend/tests/__init__.py`
+- `backend/requirements.txt`
+- `backend/pyproject.toml`
 
 Files updated in Phase 1.1:
 
@@ -134,6 +144,21 @@ Files updated in Phase 1.5:
 - `PLANS.md`
 - `docs/project_memory.md`
 
+Files updated in Phase 2.1:
+
+- `backend/README.md`
+- `backend/app/__init__.py`
+- `backend/app/main.py`
+- `backend/app/api/__init__.py`
+- `backend/app/api/routes/__init__.py`
+- `backend/app/core/__init__.py`
+- `backend/app/services/__init__.py`
+- `backend/app/models/__init__.py`
+- `backend/tests/__init__.py`
+- `backend/requirements.txt`
+- `backend/pyproject.toml`
+- `docs/project_memory.md`
+
 ## 9. GitHub Status
 
 - Local Git repository initialized on branch `main`.
@@ -154,15 +179,19 @@ Files updated in Phase 1.5:
 - Phase 1 checkpoint tag created: `v0.2.0-phase-1-complete`.
 - Phase 1 commits pushed to GitHub.
 - Tag `v0.2.0-phase-1-complete` pushed to GitHub.
+- Phase 2.1 changes are committed locally.
 
 ## 10. Known Issues
 
-- Backend and frontend contain placeholders only; no application code exists yet.
-- No tests exist yet because implementation has not started.
+- Backend has a FastAPI skeleton only; no health endpoint exists yet.
+- Analyze text and analyze files endpoint logic has not been implemented yet.
+- Rule-based analyzer logic has not been implemented yet.
+- Frontend contains placeholders only; no frontend application code exists yet.
+- No backend tests exist yet beyond the placeholder test package.
 
 ## 11. Next Recommended Action
 
-Proceed to Phase 2.1: set up the FastAPI backend.
+Proceed to Phase 2.2: create the backend health endpoint.
 
 ## 12. Session Notes
 
@@ -177,5 +206,5 @@ Proceed to Phase 2.1: set up the FastAPI backend.
 - Phase 1.4 converted `AGENTS.md` into a project-specific operating guide for safe, phased, beginner-friendly work across planning, architecture, taxonomy, backend, frontend, testing, documentation, and GitHub/release tasks.
 - Phase 1.5 finalized the documentation and architecture phase, updated project status docs, prepared the Phase 1 GitHub checkpoint, and tagged `v0.2.0-phase-1-complete`.
 - Phase 1 achievement summary: the project now has a detailed product plan, system architecture, ROS error taxonomy, agent operating rules, MVP scope, GitHub workflow, and memory system ready for Backend MVP implementation.
-- Backend implementation must not start until Phase 2.
+- Phase 2.1 created a minimal FastAPI app entry point, empty API router, backend package structure, dependency list, pytest configuration, and backend run instructions.
 - Frontend implementation must not start until Phase 3.
