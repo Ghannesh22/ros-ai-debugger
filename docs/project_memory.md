@@ -35,11 +35,11 @@ Out of scope for MVP 1:
 
 ## 3. Current Phase
 
-Phase 2: Backend MVP
+Phase 2: Backend MVP - complete
 
 ## 4. Current Sub-Phase
 
-Phase 2.7: Add backend tests - complete
+Phase 2.8: Backend MVP checkpoint - complete
 
 ## 5. Completed Sub-Phases
 
@@ -60,10 +60,17 @@ Phase 2.7: Add backend tests - complete
 - Phase 2.5: Implemented the first rule-based ROS analyzer and connected it to text and file analysis endpoints.
 - Phase 2.6: Formalized structured analyzer responses with documented Pydantic fields, constrained confidence values, consistent response tests, and high/medium/low confidence behavior.
 - Phase 2.7: Strengthened backend tests with shared fixtures/helpers, endpoint schema assertions, analyzer category coverage, unknown/no-match checks, and multi-rule response checks.
+- Phase 2.8: Finalized the Backend MVP checkpoint, updated project status docs, verified backend tests and compile checks, committed the Phase 2 checkpoint, pushed `main`, and tagged `v0.3.0-backend-mvp`.
+- Phase 2: Complete. Backend MVP analyzer checkpoint is ready for Phase 3 frontend work.
 
 ## 6. Pending Sub-Phases
 
-- Phase 2.8: Update memory file, commit, push, and tag.
+- Phase 3.1: Create frontend skeleton.
+- Phase 3.2: Add text input area.
+- Phase 3.3: Add file upload area.
+- Phase 3.4: Connect frontend to backend.
+- Phase 3.5: Display diagnosis results.
+- Phase 3.6: Update memory file, commit, push, and tag.
 
 ## 7. Important Decisions
 
@@ -226,6 +233,13 @@ Files updated in Phase 2.7:
 - `backend/README.md`
 - `docs/project_memory.md`
 
+Files updated in Phase 2.8:
+
+- `README.md`
+- `PLANS.md`
+- `backend/README.md`
+- `docs/project_memory.md`
+
 ## 9. GitHub Status
 
 - Local Git repository initialized on branch `main`.
@@ -253,10 +267,14 @@ Files updated in Phase 2.7:
 - Phase 2.5 changes are committed locally with message `Phase 2.5: implement initial rule-based ROS analyzer`.
 - Phase 2.6 changes are committed locally with message `Phase 2.6: formalize structured analyzer responses`.
 - Phase 2.7 changes are committed locally with message `Phase 2.7: strengthen backend analyzer tests`.
+- Phase 2.8 commit message: `Phase 2 complete: backend MVP analyzer`.
+- Phase 2 backend checkpoint pushed to GitHub on branch `main`.
+- Phase 2 checkpoint tag created and pushed: `v0.3.0-backend-mvp`.
+- Test status for Phase 2.8: `python -m pytest` passed with 25 tests, Python compile check passed, and `git diff --check` passed.
 
 ## 10. Known Issues
 
-- Backend has a FastAPI skeleton and health endpoint.
+- Backend MVP has a FastAPI app, health endpoint, text analysis endpoint, file analysis endpoint, and rule-based analyzer.
 - Analyze text endpoint is connected to the first rule-based analyzer.
 - Analyze files endpoint validates supported uploads, treats files as text only, and sends uploaded text to the first rule-based analyzer.
 - Rule-based analyzer currently covers the first 9 requested MVP rules only.
@@ -264,10 +282,11 @@ Files updated in Phase 2.7:
 - Rule-based analyzer is intentionally simple and may miss uncommon ROS error formats.
 - Frontend contains placeholders only; no frontend application code exists yet.
 - Backend currently has health endpoint, endpoint validation, upload handling, analyzer rule coverage, unknown/no-match, multi-rule, and response structure consistency tests.
+- No frontend implementation or LLM behavior has been added.
 
 ## 11. Next Recommended Action
 
-Proceed to Phase 2.8: update memory file, commit, push, and tag the backend MVP checkpoint.
+Proceed to Phase 3.1: create the frontend skeleton.
 
 ## 12. Session Notes
 
@@ -289,4 +308,6 @@ Proceed to Phase 2.8: update memory file, commit, push, and tag the backend MVP 
 - Phase 2.5 added `backend/app/services/ros_analyzer.py` with rule-based detection for missing packages, missing nodes/executables, Python imports, TF frames, Gazebo plugins, catkin builds, colcon builds, ROS_MASTER_URI, and ROS 2 DDS/domain issues. Both analysis endpoints now call the analyzer service, and tests cover every required MVP rule plus unknown input.
 - Phase 2.6 documented and constrained the response model, added medium confidence partial-match behavior, kept unknown results beginner-friendly, documented the final JSON schema in `backend/README.md`, and added tests for consistent response fields.
 - Phase 2.7 added shared test fixtures and response schema helpers, strengthened endpoint tests for text and file analysis, verified all MVP analyzer categories are represented, checked multi-rule output deduplication, and documented backend test commands.
+- Phase 2.8 finalized the backend MVP checkpoint. Route handlers remain thin, analyzer logic lives in services, uploaded files are treated as text only, no frontend or LLM logic was added, and verification passed with 25 backend tests, Python compile checks, and `git diff --check`.
+- Phase 2 achievement summary: the project now has a working FastAPI backend MVP with `/health`, `/analyze/text`, `/analyze/files`, safe text-only upload handling, typed structured responses, an initial rule-based ROS analyzer, and focused backend tests.
 - Frontend implementation must not start until Phase 3.

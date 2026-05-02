@@ -2,7 +2,7 @@
 
 This folder contains the FastAPI backend for ROS AI Debugger.
 
-Phase 2.6 formalizes the structured analyzer response system. The backend detects common ROS and ROS 2 error patterns from pasted text and uploaded text files, then returns a consistent JSON diagnosis. It does not use an LLM yet.
+Phase 2 completes the backend MVP analyzer. The backend detects common ROS and ROS 2 error patterns from pasted text and uploaded text files, then returns a consistent JSON diagnosis. It does not use an LLM yet.
 
 ## Structure
 

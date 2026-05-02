@@ -10,9 +10,10 @@ This project is software-first. You do not need robot hardware to use or develop
 
 - Phase 0: Complete
 - Phase 1: Complete
-- Next: Backend MVP (Phase 2)
+- Phase 2: Complete
+- Next: Frontend MVP (Phase 3)
 
-Backend and frontend implementation have not started yet.
+Backend MVP implementation is complete. Frontend implementation has not started yet.
 
 ## MVP 1
 

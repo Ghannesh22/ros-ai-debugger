@@ -47,7 +47,8 @@ MVP 1 output fields:
 
 - Phase 0: Complete.
 - Phase 1: Complete.
-- Next milestone: Phase 2 Backend MVP.
+- Phase 2: Complete.
+- Next milestone: Phase 3 Frontend MVP.
 
 ## Phase Roadmap
 
@@ -67,7 +68,7 @@ MVP 1 output fields:
 - 1.4 Review and finalize `AGENTS.md`.
 - 1.5 Finalize Phase 1, update memory file, commit, push, and tag.
 
-### Phase 2: Backend MVP - Next
+### Phase 2: Backend MVP - Complete
 
 - 2.1 Set up FastAPI backend.
 - 2.2 Create health endpoint.
@@ -78,7 +79,7 @@ MVP 1 output fields:
 - 2.7 Add backend tests.
 - 2.8 Update memory file, commit, push, and tag.
 
-### Phase 3: Frontend MVP
+### Phase 3: Frontend MVP - Next
 
 - 3.1 Create frontend skeleton.
 - 3.2 Add text input area.
