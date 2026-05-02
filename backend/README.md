@@ -101,6 +101,58 @@ Example placeholder response:
 }
 ```
 
+## Try The File Analysis Endpoint
+
+The file analysis endpoint accepts one or more uploaded ROS-related text files and returns the same planned structured response shape.
+
+Uploaded files are treated as text only. The backend does not execute uploaded files.
+
+Analyzer logic is not implemented yet. Until Phase 2.5, this endpoint returns a placeholder response and includes uploaded filenames in `related_files`.
+
+Endpoint:
+
+```text
+POST http://127.0.0.1:8000/analyze/files
+```
+
+Supported files:
+
+- `.txt`
+- `.log`
+- `.launch`
+- `.xml`
+- `.yaml`
+- `.yml`
+- `.py`
+- `.cpp`
+- `CMakeLists.txt`
+- `package.xml`
+
+Example PowerShell request:
+
+```powershell
+Invoke-RestMethod `
+  -Uri "http://127.0.0.1:8000/analyze/files" `
+  -Method Post `
+  -Form @{ files = Get-Item ".\error.log" }
+```
+
+Example placeholder response:
+
+```json
+{
+  "summary": "Files received for analysis. Analyzer logic will be added in Phase 2.5.",
+  "detected_errors": [],
+  "likely_root_causes": [],
+  "recommended_fixes": [],
+  "verification_commands": [],
+  "confidence": "low",
+  "ros_version_guess": "unknown",
+  "related_files": ["error.log"],
+  "next_debugging_steps": []
+}
+```
+
 ## Run Backend Tests
 
 From the `backend/` folder:
@@ -115,5 +167,5 @@ pytest
 - API router exists.
 - Health endpoint is implemented.
 - Analyze text endpoint skeleton is implemented with placeholder response.
-- Analyze files endpoint is not implemented yet.
+- Analyze files endpoint skeleton is implemented with placeholder response.
 - Rule-based analyzer logic is not implemented yet.
