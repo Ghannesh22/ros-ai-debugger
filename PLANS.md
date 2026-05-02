@@ -43,9 +43,15 @@ MVP 1 output fields:
 - `related_files`
 - `next_debugging_steps`
 
+## Current Milestone
+
+- Phase 0: Complete.
+- Phase 1: Complete.
+- Next milestone: Phase 2 Backend MVP.
+
 ## Phase Roadmap
 
-### Phase 0: Planning And Repository Setup
+### Phase 0: Planning And Repository Setup - Complete
 
 - 0.1 Define project scope.
 - 0.2 Create repository structure.
@@ -53,7 +59,7 @@ MVP 1 output fields:
 - 0.4 Create memory/progress file.
 - 0.5 Commit and prepare GitHub push.
 
-### Phase 1: Documentation And Architecture
+### Phase 1: Documentation And Architecture - Complete
 
 - 1.1 Create detailed project plan.
 - 1.2 Create system architecture.
@@ -61,7 +67,7 @@ MVP 1 output fields:
 - 1.4 Review and finalize `AGENTS.md`.
 - 1.5 Finalize Phase 1, update memory file, commit, push, and tag.
 
-### Phase 2: Backend MVP
+### Phase 2: Backend MVP - Next
 
 - 2.1 Set up FastAPI backend.
 - 2.2 Create health endpoint.

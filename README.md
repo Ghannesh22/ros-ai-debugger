@@ -6,6 +6,14 @@ The goal is to help robotics engineers understand errors faster by analyzing pas
 
 This project is software-first. You do not need robot hardware to use or develop the MVP. Development should stay friendly for Windows users, especially people building the project from a normal Windows machine while learning ROS debugging concepts.
 
+## Project Status
+
+- Phase 0: Complete
+- Phase 1: Complete
+- Next: Backend MVP (Phase 2)
+
+Backend and frontend implementation have not started yet.
+
 ## MVP 1
 
 MVP 1 focuses on text-based debugging for common ROS 1 Noetic and ROS 2 Humble errors.
@@ -109,7 +117,3 @@ MVP 1 will not require:
 - Push after meaningful milestones.
 - Tag documented milestones and release points.
 - Keep `docs/project_memory.md` updated before commits.
-
-## Current Status
-
-The project foundation is being finalized in Phase 0.5. Backend and frontend implementation have not started yet.
