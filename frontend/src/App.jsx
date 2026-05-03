@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const supportedFiles = [
   "logs",
   "launch files",
@@ -9,10 +11,20 @@ const supportedFiles = [
 ];
 
 function App() {
+  const [errorText, setErrorText] = useState("");
+  const [filename, setFilename] = useState("");
+  const [rosVersionHint, setRosVersionHint] = useState("");
+  const [statusMessage, setStatusMessage] = useState("");
+
+  function handleAnalyze(event) {
+    event.preventDefault();
+    setStatusMessage("Backend connection will be added in Phase 3.4.");
+  }
+
   return (
     <main className="app-shell">
       <section className="hero" aria-labelledby="page-title">
-        <p className="eyebrow">MVP 1 frontend skeleton</p>
+        <p className="eyebrow">MVP 1 frontend</p>
         <h1 id="page-title">ROS AI Debugger</h1>
         <p className="subtitle">
           Analyze ROS errors, logs, and project files with beginner-friendly
@@ -24,13 +36,47 @@ function App() {
         <div className="panel">
           <div className="panel-heading">
             <h2>Text Input</h2>
-            <span>Placeholder</span>
+            <span>Local UI</span>
           </div>
-          <textarea
-            aria-label="ROS error text placeholder"
-            placeholder="Paste ROS terminal output here in a later phase."
-            disabled
-          />
+          <form className="debug-form" onSubmit={handleAnalyze}>
+            <label className="field">
+              <span>ROS terminal error</span>
+              <textarea
+                aria-label="ROS terminal error"
+                placeholder="Paste a ROS error here, for example: Resource not found: demo_nodes_cpp"
+                value={errorText}
+                onChange={(event) => setErrorText(event.target.value)}
+              />
+            </label>
+
+            <div className="metadata-grid">
+              <label className="field">
+                <span>Filename optional</span>
+                <input
+                  aria-label="Optional filename"
+                  placeholder="terminal.txt"
+                  type="text"
+                  value={filename}
+                  onChange={(event) => setFilename(event.target.value)}
+                />
+              </label>
+
+              <label className="field">
+                <span>ROS version hint optional</span>
+                <select
+                  aria-label="Optional ROS version hint"
+                  value={rosVersionHint}
+                  onChange={(event) => setRosVersionHint(event.target.value)}
+                >
+                  <option value="">Not sure</option>
+                  <option value="ROS 1">ROS 1</option>
+                  <option value="ROS 2">ROS 2</option>
+                </select>
+              </label>
+            </div>
+
+            <button type="submit">Analyze</button>
+          </form>
         </div>
 
         <div className="panel">
@@ -50,7 +96,10 @@ function App() {
             <span>Placeholder</span>
           </div>
           <div className="results-placeholder">
-            <p>Diagnosis results will appear here after frontend behavior is added.</p>
+            <p>
+              {statusMessage ||
+                "Diagnosis results will appear here after the backend is connected."}
+            </p>
           </div>
         </div>
       </section>

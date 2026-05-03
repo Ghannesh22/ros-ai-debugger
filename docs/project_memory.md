@@ -39,7 +39,7 @@ Phase 3: Frontend MVP - in progress
 
 ## 4. Current Sub-Phase
 
-Phase 3.1: Create frontend skeleton - complete
+Phase 3.2: Add text input area - complete
 
 ## 5. Completed Sub-Phases
 
@@ -63,10 +63,10 @@ Phase 3.1: Create frontend skeleton - complete
 - Phase 2.8: Finalized the Backend MVP checkpoint, updated project status docs, verified backend tests and compile checks, committed the Phase 2 checkpoint, pushed `main`, and tagged `v0.3.0-backend-mvp`.
 - Phase 2: Complete. Backend MVP analyzer checkpoint is ready for Phase 3 frontend work.
 - Phase 3.1: Created the React with Vite frontend skeleton with a clean static page, placeholder sections for text input, file upload, and results, beginner-friendly frontend run/build instructions, root README run links, and the permanent behavior documentation rule in `AGENTS.md`.
+- Phase 3.2: Added the pasted ROS error text input UI with local state, optional filename, optional ROS version hint, an Analyze button, and the required local placeholder message without backend calls or API requests.
 
 ## 6. Pending Sub-Phases
 
-- Phase 3.2: Add text input area.
 - Phase 3.3: Add file upload area.
 - Phase 3.4: Connect frontend to backend.
 - Phase 3.5: Display diagnosis results.
@@ -263,6 +263,13 @@ Files updated in Phase 3.1:
 - `frontend/src/styles.css`
 - `docs/project_memory.md`
 
+Files updated in Phase 3.2:
+
+- `frontend/README.md`
+- `frontend/src/App.jsx`
+- `frontend/src/styles.css`
+- `docs/project_memory.md`
+
 ## 9. GitHub Status
 
 - Local Git repository initialized on branch `main`.
@@ -296,6 +303,8 @@ Files updated in Phase 3.1:
 - Test status for Phase 2.8: `python -m pytest` passed with 25 tests, Python compile check passed, and `git diff --check` passed.
 - Phase 3.1 commit message: `Phase 3.1: create frontend skeleton`.
 - Test status for Phase 3.1: `npm run build` passed for the frontend skeleton and `git diff --check` passed.
+- Phase 3.2 commit message: `Phase 3.2: add text input UI`.
+- Test status for Phase 3.2: `npm run build` passed, `npm run` confirmed available frontend scripts, and `git diff --check` passed.
 
 ## 10. Known Issues
 
@@ -306,7 +315,10 @@ Files updated in Phase 3.1:
 - Analyzer confidence is now formalized as `high`, `medium`, or `low`.
 - Rule-based analyzer is intentionally simple and may miss uncommon ROS error formats.
 - Frontend now contains a React with Vite skeleton.
-- Frontend text input, file upload, and results sections are placeholders only.
+- Frontend text input UI now accepts pasted ROS terminal errors using local state only.
+- Frontend filename and ROS version hint fields are local optional inputs only.
+- Frontend Analyze button shows the placeholder message `Backend connection will be added in Phase 3.4.`
+- Frontend file upload section is still a placeholder only.
 - Frontend does not connect to the backend yet.
 - Frontend does not implement real analysis UI behavior yet.
 - Backend currently has health endpoint, endpoint validation, upload handling, analyzer rule coverage, unknown/no-match, multi-rule, and response structure consistency tests.
@@ -314,7 +326,7 @@ Files updated in Phase 3.1:
 
 ## 11. Next Recommended Action
 
-Proceed to Phase 3.2: add the text input area.
+Proceed to Phase 3.3: add the file upload area.
 
 ## 12. Session Notes
 
@@ -341,3 +353,6 @@ Proceed to Phase 3.2: add the text input area.
 - Phase 3.1 created a static React with Vite frontend skeleton in `frontend/`. The page includes the required title, subtitle, and placeholder sections for text input, file upload, and results. No backend connection or real analysis behavior was added.
 - Phase 3.1 updated beginner-friendly commands in `frontend/README.md`, added root README run links, and updated `AGENTS.md` with the permanent behavior documentation rule.
 - Phase 3.1 verification: `npm run build` passed in `frontend/`, and `git diff --check` passed from the repository root.
+- Phase 3.2 added a real local text input form for pasted ROS errors, optional filename input, optional ROS version hint selector, and an Analyze button that only shows the required Phase 3.4 backend placeholder message. No backend connection, API request, file upload behavior, or real analysis behavior was added.
+- Phase 3.2 updated `frontend/README.md` with beginner-friendly install, run, build, and manual verification steps for the text input UI.
+- Phase 3.2 verification: `npm run build` passed in `frontend/`, `npm run` confirmed there is no separate frontend test script yet, and `git diff --check` passed from the repository root.

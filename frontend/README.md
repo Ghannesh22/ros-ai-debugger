@@ -2,7 +2,9 @@
 
 This folder contains the React frontend for ROS AI Debugger.
 
-Phase 3.1 creates the frontend skeleton only. The page shows the project title, a short description, and placeholder sections for text input, file upload, and results. It does not connect to the backend yet and does not perform real analysis yet.
+Phase 3.2 adds the pasted ROS error text input UI. The page has a text area, optional filename field, optional ROS version hint, and an Analyze button. The button only shows a local placeholder message for now.
+
+The frontend does not connect to the backend yet, does not send API requests yet, and does not implement file upload yet.
 
 ## Requirements
 
@@ -36,7 +38,35 @@ The frontend will start locally, usually at:
 http://127.0.0.1:5173
 ```
 
-Open that URL in a browser to see the frontend skeleton.
+Open that URL in a browser to see the frontend.
+
+## Verify The Text Input UI
+
+Start the development server:
+
+```powershell
+cd frontend
+npm run dev
+```
+
+Then open:
+
+```text
+http://127.0.0.1:5173
+```
+
+In the browser:
+
+- Paste a ROS terminal error into the `ROS terminal error` box.
+- Optionally enter a filename such as `terminal.txt`.
+- Optionally choose `ROS 1` or `ROS 2`.
+- Click `Analyze`.
+
+Expected result:
+
+```text
+Backend connection will be added in Phase 3.4.
+```
 
 ## Build The Frontend
 
@@ -68,7 +98,7 @@ http://127.0.0.1:4173
 
 ## Run Checks Or Tests
 
-Phase 3.1 does not add a frontend test suite yet. The available frontend check is the build:
+Phase 3.2 does not add a frontend test suite yet. The available frontend check is the build:
 
 ```powershell
 npm run build
@@ -79,7 +109,9 @@ If the command finishes without errors, the frontend skeleton builds successfull
 ## Current Status
 
 - React with Vite is set up.
-- The page has a clean static skeleton.
-- Text input, file upload, and results are placeholders only.
+- The page has a clean text input UI for pasted ROS terminal errors.
+- Filename and ROS version hint are local optional fields.
+- The Analyze button shows a local placeholder message.
+- File upload is still a placeholder only.
 - Backend calls are not implemented yet.
-- Real analysis UI behavior is not implemented yet.
+- Real analysis behavior is not implemented yet.
