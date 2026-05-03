@@ -1,24 +1,33 @@
 import { useState } from "react";
 
-const supportedFiles = [
-  "logs",
-  "launch files",
-  "package.xml",
+const supportedFileTypes = [
+  ".txt",
+  ".log",
+  ".launch",
+  ".xml",
+  ".yaml",
+  ".yml",
+  ".py",
+  ".cpp",
   "CMakeLists.txt",
-  "YAML",
-  "Python",
-  "C++",
+  "package.xml",
 ];
 
 function App() {
   const [errorText, setErrorText] = useState("");
   const [filename, setFilename] = useState("");
   const [rosVersionHint, setRosVersionHint] = useState("");
+  const [selectedFiles, setSelectedFiles] = useState([]);
   const [statusMessage, setStatusMessage] = useState("");
 
   function handleAnalyze(event) {
     event.preventDefault();
     setStatusMessage("Backend connection will be added in Phase 3.4.");
+  }
+
+  function handleFileSelection(event) {
+    const filenames = Array.from(event.target.files, (file) => file.name);
+    setSelectedFiles(filenames);
   }
 
   return (
@@ -82,11 +91,41 @@ function App() {
         <div className="panel">
           <div className="panel-heading">
             <h2>File Upload</h2>
-            <span>Placeholder</span>
+            <span>Local UI</span>
           </div>
-          <div className="upload-placeholder">
-            <strong>Supported file area</strong>
-            <p>{supportedFiles.join(", ")}</p>
+          <div className="upload-area">
+            <label className="field">
+              <span>ROS logs and project files</span>
+              <input
+                aria-label="Select ROS log and project files"
+                type="file"
+                multiple
+                accept=".txt,.log,.launch,.xml,.yaml,.yml,.py,.cpp"
+                onChange={handleFileSelection}
+              />
+            </label>
+
+            <div className="supported-types">
+              <strong>Supported file types</strong>
+              <ul>
+                {supportedFileTypes.map((fileType) => (
+                  <li key={fileType}>{fileType}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="selected-files" aria-live="polite">
+              <strong>Selected files</strong>
+              {selectedFiles.length > 0 ? (
+                <ul>
+                  {selectedFiles.map((selectedFile, index) => (
+                    <li key={`${selectedFile}-${index}`}>{selectedFile}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No files selected yet.</p>
+              )}
+            </div>
           </div>
         </div>
 

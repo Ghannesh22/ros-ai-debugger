@@ -145,6 +145,10 @@ textarea:focus {
   box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.14);
 }
 
+input[type="file"] {
+  cursor: pointer;
+}
+
 .metadata-grid {
   display: grid;
   gap: 14px;
@@ -167,7 +171,7 @@ button:hover {
   border-color: #115e59;
 }
 
-.upload-placeholder,
+.upload-area,
 .results-placeholder {
   align-items: flex-start;
   background: #f8fafc;
@@ -181,12 +185,48 @@ button:hover {
   padding: 18px;
 }
 
-.upload-placeholder strong {
+.upload-area {
+  gap: 18px;
+  justify-content: flex-start;
+}
+
+.upload-area strong,
+.selected-files strong {
   color: #182230;
   margin-bottom: 8px;
 }
 
-.upload-placeholder p,
+.supported-types,
+.selected-files {
+  width: 100%;
+}
+
+.supported-types ul,
+.selected-files ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.supported-types li,
+.selected-files li {
+  background: #ffffff;
+  border: 1px solid #d8dee8;
+  border-radius: 6px;
+  color: #344054;
+  font-size: 0.86rem;
+  padding: 6px 9px;
+}
+
+.selected-files li {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.selected-files p,
 .results-placeholder p {
   margin-bottom: 0;
 }
