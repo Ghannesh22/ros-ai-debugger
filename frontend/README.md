@@ -2,9 +2,9 @@
 
 This folder contains the React frontend for ROS AI Debugger.
 
-Phase 3.3 adds the file upload UI for ROS logs and project files. The page has a text area, optional filename field, optional ROS version hint, file selector, selected filename list, and an Analyze button. The button only shows a local placeholder message for now.
+Phase 3.4 connects the frontend to the backend analysis API. The page can send pasted ROS errors to `POST /analyze/text` and selected files to `POST /analyze/files`.
 
-The frontend does not connect to the backend yet, does not send API requests yet, and does not perform real analysis yet.
+Full polished result display is planned for Phase 3.5. For now, the frontend shows the structured JSON response from the backend.
 
 ## Requirements
 
@@ -17,14 +17,45 @@ npm --version
 
 ## Install Dependencies
 
-From the repository root:
+Install backend dependencies from the repository root:
+
+```powershell
+cd backend
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+Open a second terminal, then install frontend dependencies from the repository root:
 
 ```powershell
 cd frontend
 npm install
 ```
 
-## Start The Development Server
+## Start The Backend
+
+From the `backend/` folder:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+uvicorn app.main:app --reload
+```
+
+The backend should be running at:
+
+```text
+http://127.0.0.1:8000
+```
+
+Check it in a browser:
+
+```text
+http://127.0.0.1:8000/health
+```
+
+## Start The Frontend
 
 From the `frontend/` folder:
 
@@ -40,9 +71,33 @@ http://127.0.0.1:5173
 
 Open that URL in a browser to see the frontend.
 
-## Verify The Text Input UI
+## Change The Backend URL
 
-Start the development server:
+The frontend uses this backend URL by default:
+
+```text
+http://127.0.0.1:8000
+```
+
+To use a different backend URL, set `VITE_BACKEND_URL` before starting the frontend:
+
+```powershell
+cd frontend
+$env:VITE_BACKEND_URL="http://127.0.0.1:8000"
+npm run dev
+```
+
+## Test Text Analysis Manually
+
+Start the backend in one terminal:
+
+```powershell
+cd backend
+.\.venv\Scripts\Activate.ps1
+uvicorn app.main:app --reload
+```
+
+Start the frontend in another terminal:
 
 ```powershell
 cd frontend
@@ -57,38 +112,71 @@ http://127.0.0.1:5173
 
 In the browser:
 
-- Paste a ROS terminal error into the `ROS terminal error` box.
+- Paste this ROS terminal error into the `ROS terminal error` box:
+
+```text
+Package 'demo_nodes_cpp' not found
+```
+
 - Optionally enter a filename such as `terminal.txt`.
 - Optionally choose `ROS 1` or `ROS 2`.
 - Click `Analyze`.
 
 Expected result:
 
-```text
-Backend connection will be added in Phase 3.4.
+```json
+{
+  "detected_errors": ["Missing ROS package"],
+  "confidence": "high"
+}
 ```
 
-## Verify The File Upload UI
+The browser will show the full structured JSON response.
 
-Start the development server:
+## Test File Analysis Manually
+
+Create a small test file from the repository root:
+
+```powershell
+@'
+Package 'demo_nodes_cpp' not found
+'@ | Set-Content -Path .\sample-error.log
+```
+
+Start the backend in one terminal:
+
+```powershell
+cd backend
+.\.venv\Scripts\Activate.ps1
+uvicorn app.main:app --reload
+```
+
+Start the frontend in another terminal:
 
 ```powershell
 cd frontend
 npm run dev
 ```
 
-Then open:
-
-```text
-http://127.0.0.1:5173
-```
-
 In the browser:
 
 - Find the `File Upload` section.
 - Click the file picker.
-- Select one or more ROS-related files.
+- Select `sample-error.log`.
+- Leave the text area empty.
+- Click `Analyze`.
 - Confirm the selected filenames appear under `Selected files`.
+
+Expected result:
+
+```json
+{
+  "detected_errors": ["Missing ROS package"],
+  "related_files": ["sample-error.log"]
+}
+```
+
+The browser will show the full structured JSON response.
 
 Supported file types shown in the UI:
 
@@ -103,7 +191,7 @@ Supported file types shown in the UI:
 - `CMakeLists.txt`
 - `package.xml`
 
-This phase only shows selected filenames in the browser. It does not upload files to the backend yet.
+If both pasted text and files are provided, the frontend uses text analysis for now and shows a note that combined analysis can be added later.
 
 ## Build The Frontend
 
@@ -135,21 +223,32 @@ http://127.0.0.1:4173
 
 ## Run Checks Or Tests
 
-Phase 3.3 does not add a frontend test suite yet. The available frontend check is the build:
+Phase 3.4 does not add a frontend test suite yet. The available frontend check is the build:
 
 ```powershell
 npm run build
 ```
 
-If the command finishes without errors, the frontend skeleton builds successfully.
+If the command finishes without errors, the frontend builds successfully.
+
+Backend tests can be run from the repository root:
+
+```powershell
+cd backend
+.\.venv\Scripts\Activate.ps1
+python -m pytest
+```
 
 ## Current Status
 
 - React with Vite is set up.
 - The page has a clean text input UI for pasted ROS terminal errors.
 - Filename and ROS version hint are local optional fields.
-- The Analyze button shows a local placeholder message.
 - The page has a local file upload UI for selecting one or more files.
 - Selected filenames are shown in the UI.
-- Backend calls are not implemented yet.
-- Real analysis behavior is not implemented yet.
+- The Analyze button calls the backend.
+- Pasted text is sent to `POST /analyze/text`.
+- Selected files are sent to `POST /analyze/files` when the text area is empty.
+- Temporary raw JSON response display is implemented.
+- Loading and request error states are implemented.
+- Full polished result display is not implemented yet.

@@ -46,6 +46,13 @@ The backend will start locally, usually at:
 http://127.0.0.1:8000
 ```
 
+The backend allows requests from the local Vite frontend during development:
+
+```text
+http://127.0.0.1:5173
+http://localhost:5173
+```
+
 ## Check The Health Endpoint
 
 After starting the backend, open this URL in a browser or send a request:
@@ -280,6 +287,7 @@ python -m py_compile app\main.py app\api\routes\analyze.py app\api\routes\health
 - Health endpoint is implemented.
 - Analyze text endpoint is connected to the first rule-based analyzer.
 - Analyze files endpoint is connected to the first rule-based analyzer.
+- Local frontend CORS origins are configured for Vite development.
 - Rule-based analyzer logic covers the first MVP error categories listed above.
 - Structured responses are validated with typed Pydantic models.
 - LLM-based analysis is not implemented yet.

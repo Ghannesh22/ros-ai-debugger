@@ -11,9 +11,9 @@ This project is software-first. You do not need robot hardware to use or develop
 - Phase 0: Complete
 - Phase 1: Complete
 - Phase 2: Complete
-- Next: Frontend MVP (Phase 3)
+- Phase 3: In progress
 
-Backend MVP implementation is complete. Frontend implementation has not started yet.
+Backend MVP implementation is complete. The frontend now connects to the backend analysis API and shows temporary structured JSON results.
 
 ## MVP 1
 
@@ -62,7 +62,24 @@ Backend setup and run commands are in [`backend/README.md`](backend/README.md).
 
 Frontend setup and run commands are in [`frontend/README.md`](frontend/README.md).
 
-For the current frontend skeleton, run:
+To run the backend, open a terminal from the repository root:
+
+```powershell
+cd backend
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
+
+The backend runs at:
+
+```text
+http://127.0.0.1:8000
+```
+
+To run the frontend, open a second terminal from the repository root:
 
 ```powershell
 cd frontend
@@ -79,7 +96,16 @@ http://127.0.0.1:5173
 To check that the frontend builds:
 
 ```powershell
+cd frontend
 npm run build
+```
+
+To run backend tests:
+
+```powershell
+cd backend
+.\.venv\Scripts\Activate.ps1
+python -m pytest
 ```
 
 ## Roadmap

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BACKEND_URL, analyzeFiles, analyzeText } from "./api.js";
 
 const supportedFileTypes = [
   ".txt",
@@ -18,16 +19,57 @@ function App() {
   const [filename, setFilename] = useState("");
   const [rosVersionHint, setRosVersionHint] = useState("");
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [analysisResult, setAnalysisResult] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
 
-  function handleAnalyze(event) {
+  async function handleAnalyze(event) {
     event.preventDefault();
-    setStatusMessage("Backend connection will be added in Phase 3.4.");
+    const trimmedText = errorText.trim();
+    const hasFiles = selectedFiles.length > 0;
+
+    setAnalysisResult(null);
+    setErrorMessage("");
+    setStatusMessage("");
+
+    if (!trimmedText && !hasFiles) {
+      setErrorMessage("Paste ROS error text or select at least one file first.");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      if (trimmedText) {
+        const response = await analyzeText({
+          text: trimmedText,
+          filename: filename.trim(),
+          rosVersionHint,
+        });
+        setAnalysisResult(response);
+        setStatusMessage(
+          hasFiles
+            ? "Text analysis was used. Combined text and file analysis can be added later."
+            : "Text analysis complete.",
+        );
+      } else {
+        const response = await analyzeFiles({
+          files: selectedFiles,
+          rosVersionHint,
+        });
+        setAnalysisResult(response);
+        setStatusMessage("File analysis complete.");
+      }
+    } catch (error) {
+      setErrorMessage(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   function handleFileSelection(event) {
-    const filenames = Array.from(event.target.files, (file) => file.name);
-    setSelectedFiles(filenames);
+    setSelectedFiles(Array.from(event.target.files));
   }
 
   return (
@@ -42,6 +84,11 @@ function App() {
       </section>
 
       <section className="workspace" aria-label="Debugger workspace">
+        <div className="api-banner">
+          <strong>Backend API</strong>
+          <span>{BACKEND_URL}</span>
+        </div>
+
         <div className="panel">
           <div className="panel-heading">
             <h2>Text Input</h2>
@@ -84,7 +131,9 @@ function App() {
               </label>
             </div>
 
-            <button type="submit">Analyze</button>
+            <button type="submit" disabled={isLoading}>
+              {isLoading ? "Analyzing..." : "Analyze"}
+            </button>
           </form>
         </div>
 
@@ -119,7 +168,9 @@ function App() {
               {selectedFiles.length > 0 ? (
                 <ul>
                   {selectedFiles.map((selectedFile, index) => (
-                    <li key={`${selectedFile}-${index}`}>{selectedFile}</li>
+                    <li key={`${selectedFile.name}-${index}`}>
+                      {selectedFile.name}
+                    </li>
                   ))}
                 </ul>
               ) : (
@@ -132,13 +183,35 @@ function App() {
         <div className="panel results-panel">
           <div className="panel-heading">
             <h2>Results</h2>
-            <span>Placeholder</span>
+            <span>{analysisResult ? "API Response" : "Waiting"}</span>
           </div>
-          <div className="results-placeholder">
-            <p>
-              {statusMessage ||
-                "Diagnosis results will appear here after the backend is connected."}
-            </p>
+          <div className="results-placeholder" aria-live="polite">
+            {isLoading && <p>Analyzing input with the backend...</p>}
+
+            {!isLoading && errorMessage && (
+              <div className="message error-message">
+                <strong>Request failed</strong>
+                <p>{errorMessage}</p>
+              </div>
+            )}
+
+            {!isLoading && statusMessage && !errorMessage && (
+              <div className="message success-message">
+                <strong>Status</strong>
+                <p>{statusMessage}</p>
+              </div>
+            )}
+
+            {!isLoading && analysisResult && (
+              <pre>{JSON.stringify(analysisResult, null, 2)}</pre>
+            )}
+
+            {!isLoading && !errorMessage && !analysisResult && !statusMessage && (
+              <p>
+                Paste ROS error text or select files, then click Analyze to call
+                the backend.
+              </p>
+            )}
           </div>
         </div>
       </section>

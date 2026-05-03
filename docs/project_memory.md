@@ -39,7 +39,7 @@ Phase 3: Frontend MVP - in progress
 
 ## 4. Current Sub-Phase
 
-Phase 3.3: Add file upload area - complete
+Phase 3.4: Connect frontend to backend - complete
 
 ## 5. Completed Sub-Phases
 
@@ -65,10 +65,10 @@ Phase 3.3: Add file upload area - complete
 - Phase 3.1: Created the React with Vite frontend skeleton with a clean static page, placeholder sections for text input, file upload, and results, beginner-friendly frontend run/build instructions, root README run links, and the permanent behavior documentation rule in `AGENTS.md`.
 - Phase 3.2: Added the pasted ROS error text input UI with local state, optional filename, optional ROS version hint, an Analyze button, and the required local placeholder message without backend calls or API requests.
 - Phase 3.3: Added the file upload UI with local state, multi-file selection, selected filename display, and supported file type guidance without backend calls, API requests, file reading, or real analysis behavior.
+- Phase 3.4: Connected the frontend to the backend analysis API. Text input now calls `POST /analyze/text`, file-only input calls `POST /analyze/files`, loading and request error states are shown, raw structured JSON is displayed temporarily, Vite backend URL configuration was added, and local frontend CORS origins were enabled in the backend for integration.
 
 ## 6. Pending Sub-Phases
 
-- Phase 3.4: Connect frontend to backend.
 - Phase 3.5: Display diagnosis results.
 - Phase 3.6: Update memory file, commit, push, and tag.
 
@@ -277,6 +277,18 @@ Files updated in Phase 3.3:
 - `frontend/src/styles.css`
 - `docs/project_memory.md`
 
+Files updated in Phase 3.4:
+
+- `README.md`
+- `backend/README.md`
+- `backend/app/main.py`
+- `backend/tests/test_health.py`
+- `frontend/README.md`
+- `frontend/src/api.js`
+- `frontend/src/App.jsx`
+- `frontend/src/styles.css`
+- `docs/project_memory.md`
+
 ## 9. GitHub Status
 
 - Local Git repository initialized on branch `main`.
@@ -314,6 +326,8 @@ Files updated in Phase 3.3:
 - Test status for Phase 3.2: `npm run build` passed, `npm run` confirmed available frontend scripts, and `git diff --check` passed.
 - Phase 3.3 commit message: `Phase 3.3: add file upload UI`.
 - Test status for Phase 3.3: `npm run build` passed, `npm run` confirmed available frontend scripts, and `git diff --check` passed.
+- Phase 3.4 commit message: `Phase 3.4: connect frontend to backend analysis API`.
+- Test status for Phase 3.4: `npm run build` passed, backend `python -m pytest` passed with 26 tests, and `git diff --check` passed.
 
 ## 10. Known Issues
 
@@ -326,17 +340,22 @@ Files updated in Phase 3.3:
 - Frontend now contains a React with Vite skeleton.
 - Frontend text input UI now accepts pasted ROS terminal errors using local state only.
 - Frontend filename and ROS version hint fields are local optional inputs only.
-- Frontend Analyze button shows the placeholder message `Backend connection will be added in Phase 3.4.`
+- Frontend Analyze button now calls the backend analysis API.
 - Frontend file upload UI now allows selecting one or more files and shows selected filenames using local state only.
 - Frontend supported file type guidance lists `.txt`, `.log`, `.launch`, `.xml`, `.yaml`, `.yml`, `.py`, `.cpp`, `CMakeLists.txt`, and `package.xml`.
-- Frontend does not connect to the backend yet.
-- Frontend does not implement real analysis UI behavior yet.
+- Frontend uses `VITE_BACKEND_URL` when set and defaults to `http://127.0.0.1:8000`.
+- Frontend text analysis calls `POST /analyze/text`.
+- Frontend file-only analysis calls `POST /analyze/files`.
+- Frontend prefers text analysis when both pasted text and files are provided, and shows a note that combined analysis can be added later.
+- Frontend now shows loading and request error states.
+- Frontend displays raw structured JSON temporarily; polished results display is still pending for Phase 3.5.
+- Backend now allows local Vite frontend origins for CORS during development.
 - Backend currently has health endpoint, endpoint validation, upload handling, analyzer rule coverage, unknown/no-match, multi-rule, and response structure consistency tests.
 - No LLM behavior has been added.
 
 ## 11. Next Recommended Action
 
-Proceed to Phase 3.4: connect frontend to backend.
+Proceed to Phase 3.5: display diagnosis results.
 
 ## 12. Session Notes
 
@@ -369,3 +388,9 @@ Proceed to Phase 3.4: connect frontend to backend.
 - Phase 3.3 added a local multi-file upload UI for ROS logs and project files, displayed selected filenames in the browser, and documented supported file types in the UI. No backend connection, API request, file reading, upload processing, or real analysis behavior was added.
 - Phase 3.3 updated `frontend/README.md` with beginner-friendly install, run, build, and manual verification steps for the file upload UI.
 - Phase 3.3 verification: `npm run build` passed in `frontend/`, `npm run` confirmed there is no separate frontend test script yet, and `git diff --check` passed from the repository root.
+- Phase 3.4 added `frontend/src/api.js` for backend API configuration and request helpers. The default backend URL is `http://127.0.0.1:8000`, and it can be changed with `VITE_BACKEND_URL`.
+- Phase 3.4 updated the frontend so pasted text calls `/analyze/text`, selected files call `/analyze/files` when no text is provided, both text and files prefer text analysis for now, and raw JSON responses are shown temporarily until Phase 3.5.
+- Phase 3.4 added loading and request error states in the frontend.
+- Phase 3.4 added local development CORS origins in the backend so the Vite frontend can call the FastAPI backend from `http://127.0.0.1:5173` or `http://localhost:5173`.
+- Phase 3.4 updated `frontend/README.md`, `backend/README.md`, and `README.md` with beginner-friendly full-stack install, start, test, and verification commands.
+- Phase 3.4 verification: `npm run build` passed in `frontend/`, backend `python -m pytest` passed with 26 tests, and `git diff --check` passed from the repository root.
