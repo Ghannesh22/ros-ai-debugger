@@ -21,6 +21,7 @@ ROS AI Debugger helps users understand ROS errors from pasted terminal output an
 - Keep MVP 1 small, realistic, and focused on text-based ROS debugging.
 - Use required skills automatically when a task calls for them.
 - Ask before making large implementation changes that are outside the active phase.
+- Whenever behavior is added or changed, document exact commands for beginners to run, test, and verify it.
 
 ## 3. Agent Roles
 
@@ -215,4 +216,3 @@ At minimum, every memory update should record:
 - Pending work.
 - Known issues.
 - Next action.
-

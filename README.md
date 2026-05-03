@@ -56,6 +56,32 @@ MVP 1 will not require:
 - AI layer: provider abstraction, starting with rule-based analysis.
 - ROS support: text-based ROS 1 Noetic and ROS 2 Humble error analysis.
 
+## How To Run
+
+Backend setup and run commands are in [`backend/README.md`](backend/README.md).
+
+Frontend setup and run commands are in [`frontend/README.md`](frontend/README.md).
+
+For the current frontend skeleton, run:
+
+```powershell
+cd frontend
+npm install
+npm run dev
+```
+
+Then open:
+
+```text
+http://127.0.0.1:5173
+```
+
+To check that the frontend builds:
+
+```powershell
+npm run build
+```
+
 ## Roadmap
 
 ### Phase 0: Planning And Repository Setup

@@ -35,11 +35,11 @@ Out of scope for MVP 1:
 
 ## 3. Current Phase
 
-Phase 2: Backend MVP - complete
+Phase 3: Frontend MVP - in progress
 
 ## 4. Current Sub-Phase
 
-Phase 2.8: Backend MVP checkpoint - complete
+Phase 3.1: Create frontend skeleton - complete
 
 ## 5. Completed Sub-Phases
 
@@ -62,10 +62,10 @@ Phase 2.8: Backend MVP checkpoint - complete
 - Phase 2.7: Strengthened backend tests with shared fixtures/helpers, endpoint schema assertions, analyzer category coverage, unknown/no-match checks, and multi-rule response checks.
 - Phase 2.8: Finalized the Backend MVP checkpoint, updated project status docs, verified backend tests and compile checks, committed the Phase 2 checkpoint, pushed `main`, and tagged `v0.3.0-backend-mvp`.
 - Phase 2: Complete. Backend MVP analyzer checkpoint is ready for Phase 3 frontend work.
+- Phase 3.1: Created the React with Vite frontend skeleton with a clean static page, placeholder sections for text input, file upload, and results, beginner-friendly frontend run/build instructions, root README run links, and the permanent behavior documentation rule in `AGENTS.md`.
 
 ## 6. Pending Sub-Phases
 
-- Phase 3.1: Create frontend skeleton.
 - Phase 3.2: Add text input area.
 - Phase 3.3: Add file upload area.
 - Phase 3.4: Connect frontend to backend.
@@ -134,6 +134,14 @@ Files:
 - `backend/tests/test_ros_analyzer.py`
 - `backend/requirements.txt`
 - `backend/pyproject.toml`
+- `.gitignore`
+- `frontend/index.html`
+- `frontend/package-lock.json`
+- `frontend/package.json`
+- `frontend/vite.config.js`
+- `frontend/src/App.jsx`
+- `frontend/src/main.jsx`
+- `frontend/src/styles.css`
 
 Files updated in Phase 1.1:
 
@@ -240,6 +248,21 @@ Files updated in Phase 2.8:
 - `backend/README.md`
 - `docs/project_memory.md`
 
+Files updated in Phase 3.1:
+
+- `.gitignore`
+- `AGENTS.md`
+- `README.md`
+- `frontend/README.md`
+- `frontend/index.html`
+- `frontend/package-lock.json`
+- `frontend/package.json`
+- `frontend/vite.config.js`
+- `frontend/src/App.jsx`
+- `frontend/src/main.jsx`
+- `frontend/src/styles.css`
+- `docs/project_memory.md`
+
 ## 9. GitHub Status
 
 - Local Git repository initialized on branch `main`.
@@ -271,6 +294,8 @@ Files updated in Phase 2.8:
 - Phase 2 backend checkpoint pushed to GitHub on branch `main`.
 - Phase 2 checkpoint tag created and pushed: `v0.3.0-backend-mvp`.
 - Test status for Phase 2.8: `python -m pytest` passed with 25 tests, Python compile check passed, and `git diff --check` passed.
+- Phase 3.1 commit message: `Phase 3.1: create frontend skeleton`.
+- Test status for Phase 3.1: `npm run build` passed for the frontend skeleton and `git diff --check` passed.
 
 ## 10. Known Issues
 
@@ -280,13 +305,16 @@ Files updated in Phase 2.8:
 - Rule-based analyzer currently covers the first 9 requested MVP rules only.
 - Analyzer confidence is now formalized as `high`, `medium`, or `low`.
 - Rule-based analyzer is intentionally simple and may miss uncommon ROS error formats.
-- Frontend contains placeholders only; no frontend application code exists yet.
+- Frontend now contains a React with Vite skeleton.
+- Frontend text input, file upload, and results sections are placeholders only.
+- Frontend does not connect to the backend yet.
+- Frontend does not implement real analysis UI behavior yet.
 - Backend currently has health endpoint, endpoint validation, upload handling, analyzer rule coverage, unknown/no-match, multi-rule, and response structure consistency tests.
-- No frontend implementation or LLM behavior has been added.
+- No LLM behavior has been added.
 
 ## 11. Next Recommended Action
 
-Proceed to Phase 3.1: create the frontend skeleton.
+Proceed to Phase 3.2: add the text input area.
 
 ## 12. Session Notes
 
@@ -310,4 +338,6 @@ Proceed to Phase 3.1: create the frontend skeleton.
 - Phase 2.7 added shared test fixtures and response schema helpers, strengthened endpoint tests for text and file analysis, verified all MVP analyzer categories are represented, checked multi-rule output deduplication, and documented backend test commands.
 - Phase 2.8 finalized the backend MVP checkpoint. Route handlers remain thin, analyzer logic lives in services, uploaded files are treated as text only, no frontend or LLM logic was added, and verification passed with 25 backend tests, Python compile checks, and `git diff --check`.
 - Phase 2 achievement summary: the project now has a working FastAPI backend MVP with `/health`, `/analyze/text`, `/analyze/files`, safe text-only upload handling, typed structured responses, an initial rule-based ROS analyzer, and focused backend tests.
-- Frontend implementation must not start until Phase 3.
+- Phase 3.1 created a static React with Vite frontend skeleton in `frontend/`. The page includes the required title, subtitle, and placeholder sections for text input, file upload, and results. No backend connection or real analysis behavior was added.
+- Phase 3.1 updated beginner-friendly commands in `frontend/README.md`, added root README run links, and updated `AGENTS.md` with the permanent behavior documentation rule.
+- Phase 3.1 verification: `npm run build` passed in `frontend/`, and `git diff --check` passed from the repository root.
