@@ -2,7 +2,7 @@
 
 This folder contains the React frontend for ROS AI Debugger.
 
-Phase 3.5 displays backend analysis responses in readable result sections. The page can send pasted ROS errors to `POST /analyze/text` and selected files to `POST /analyze/files`.
+Phase 3 completes the Frontend MVP. The page can send pasted ROS errors to `POST /analyze/text`, send selected files to `POST /analyze/files`, and display backend analysis responses in readable result sections.
 
 Raw JSON is hidden by default and can be shown with the `Show raw JSON` button for debugging.
 
@@ -236,7 +236,7 @@ http://127.0.0.1:4173
 
 ## Run Checks Or Tests
 
-Phase 3.4 does not add a frontend test suite yet. The available frontend check is the build:
+Phase 3 does not add a frontend test suite yet. The available frontend check is the build:
 
 ```powershell
 npm run build
@@ -266,3 +266,4 @@ python -m pytest
 - Verification commands are shown as copy-friendly command rows.
 - Raw JSON is hidden by default and available with a toggle.
 - Loading and request error states are implemented.
+- Phase 3 Frontend MVP checkpoint is complete.

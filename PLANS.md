@@ -48,7 +48,8 @@ MVP 1 output fields:
 - Phase 0: Complete.
 - Phase 1: Complete.
 - Phase 2: Complete.
-- Next milestone: Phase 3 Frontend MVP.
+- Phase 3: Complete.
+- Next milestone: Phase 4 Examples And Testing.
 
 ## Phase Roadmap
 
@@ -79,7 +80,7 @@ MVP 1 output fields:
 - 2.7 Add backend tests.
 - 2.8 Update memory file, commit, push, and tag.
 
-### Phase 3: Frontend MVP - Next
+### Phase 3: Frontend MVP - Complete
 
 - 3.1 Create frontend skeleton.
 - 3.2 Add text input area.
@@ -88,7 +89,7 @@ MVP 1 output fields:
 - 3.5 Display diagnosis results.
 - 3.6 Update memory file, commit, push, and tag.
 
-### Phase 4: Examples And Testing
+### Phase 4: Examples And Testing - Next
 
 - 4.1 Add example ROS 1 errors.
 - 4.2 Add example ROS 2 errors.

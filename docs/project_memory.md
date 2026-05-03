@@ -35,11 +35,11 @@ Out of scope for MVP 1:
 
 ## 3. Current Phase
 
-Phase 3: Frontend MVP - in progress
+Phase 3: Frontend MVP - complete
 
 ## 4. Current Sub-Phase
 
-Phase 3.5: Display diagnosis results - complete
+Phase 3.6: Frontend MVP checkpoint - complete
 
 ## 5. Completed Sub-Phases
 
@@ -67,10 +67,17 @@ Phase 3.5: Display diagnosis results - complete
 - Phase 3.3: Added the file upload UI with local state, multi-file selection, selected filename display, and supported file type guidance without backend calls, API requests, file reading, or real analysis behavior.
 - Phase 3.4: Connected the frontend to the backend analysis API. Text input now calls `POST /analyze/text`, file-only input calls `POST /analyze/files`, loading and request error states are shown, raw structured JSON is displayed temporarily, Vite backend URL configuration was added, and local frontend CORS origins were enabled in the backend for integration.
 - Phase 3.5: Replaced the temporary raw JSON display with beginner-friendly readable result sections for all structured response fields, copy-friendly verification command rows, confidence/ROS version metadata, and an optional `Show raw JSON` toggle.
+- Phase 3.6: Finalized the Frontend MVP checkpoint, updated project status docs, verified frontend build, backend tests, Python compile checks, and `git diff --check`, committed the checkpoint, pushed `main`, and tagged `v0.4.0-frontend-mvp`.
+- Phase 3: Complete. Frontend MVP is connected to the backend analyzer and ready for Phase 4 examples and testing work.
 
 ## 6. Pending Sub-Phases
 
-- Phase 3.6: Update memory file, commit, push, and tag.
+- Phase 4.1: Add example ROS 1 errors.
+- Phase 4.2: Add example ROS 2 errors.
+- Phase 4.3: Add Gazebo error examples.
+- Phase 4.4: Add TF/frame error examples.
+- Phase 4.5: Add test cases.
+- Phase 4.6: Update memory file, commit, push, and tag.
 
 ## 7. Important Decisions
 
@@ -297,6 +304,13 @@ Files updated in Phase 3.5:
 - `frontend/src/styles.css`
 - `docs/project_memory.md`
 
+Files updated in Phase 3.6:
+
+- `README.md`
+- `PLANS.md`
+- `frontend/README.md`
+- `docs/project_memory.md`
+
 ## 9. GitHub Status
 
 - Local Git repository initialized on branch `main`.
@@ -338,6 +352,10 @@ Files updated in Phase 3.5:
 - Test status for Phase 3.4: `npm run build` passed, backend `python -m pytest` passed with 26 tests, and `git diff --check` passed.
 - Phase 3.5 commit message: `Phase 3.5: add readable analysis results UI`.
 - Test status for Phase 3.5: `npm run build` passed and `git diff --check` passed.
+- Phase 3.6 commit message: `Phase 3 complete: frontend MVP connected to backend`.
+- Phase 3 frontend checkpoint pushed to GitHub on branch `main`.
+- Phase 3 checkpoint tag created and pushed: `v0.4.0-frontend-mvp`.
+- Test status for Phase 3.6: `npm run build` passed, backend `python -m pytest` passed with 26 tests, Python compile check passed, and `git diff --check` passed.
 
 ## 10. Known Issues
 
@@ -363,11 +381,13 @@ Files updated in Phase 3.5:
 - Frontend verification commands are displayed as copy-friendly command rows.
 - Backend now allows local Vite frontend origins for CORS during development.
 - Backend currently has health endpoint, endpoint validation, upload handling, analyzer rule coverage, unknown/no-match, multi-rule, and response structure consistency tests.
+- Phase 3 Frontend MVP is complete and connected to the backend analyzer.
+- Phase 4 example files and expanded example-driven tests have not started yet.
 - No LLM behavior has been added.
 
 ## 11. Next Recommended Action
 
-Proceed to Phase 3.6: update memory file, commit, push, and tag.
+Proceed to Phase 4.1: add example ROS 1 errors.
 
 ## 12. Session Notes
 
@@ -410,3 +430,8 @@ Proceed to Phase 3.6: update memory file, commit, push, and tag.
 - Phase 3.5 added a `Show raw JSON` / `Hide raw JSON` toggle so raw backend output is available for debugging but hidden by default.
 - Phase 3.5 updated `frontend/README.md` and `README.md` with beginner-friendly manual verification steps for readable results and the raw JSON toggle.
 - Phase 3.5 verification: `npm run build` passed in `frontend/`, and `git diff --check` passed from the repository root. Backend files were not changed, so backend tests were not required for this sub-phase.
+- Phase 3.6 reviewed the Frontend MVP checkpoint: text input works, file upload UI works, the frontend connects to backend analysis endpoints, loading and error states exist, readable result sections exist, and the raw JSON toggle exists.
+- Phase 3.6 verification: `npm run build` passed in `frontend/`, backend `python -m pytest` passed with 26 tests, Python compile check passed for backend app and analyzer files, and `git diff --check` passed.
+- Phase 3 achievement summary: the project now has a React with Vite frontend that accepts pasted ROS errors, accepts ROS-related text file uploads, calls the FastAPI backend, displays loading and request errors, renders beginner-friendly analysis result sections, and keeps raw JSON available behind a toggle.
+- Phase 3 GitHub checkpoint: branch `main` pushed and tag `v0.4.0-frontend-mvp` pushed for the Frontend MVP.
+- Frontend implementation must not continue into Phase 4 until Phase 4 is explicitly requested.
