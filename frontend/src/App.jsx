@@ -22,6 +22,7 @@ function App() {
   const [analysisResult, setAnalysisResult] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showRawJson, setShowRawJson] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
 
   async function handleAnalyze(event) {
@@ -31,6 +32,7 @@ function App() {
 
     setAnalysisResult(null);
     setErrorMessage("");
+    setShowRawJson(false);
     setStatusMessage("");
 
     if (!trimmedText && !hasFiles) {
@@ -183,7 +185,7 @@ function App() {
         <div className="panel results-panel">
           <div className="panel-heading">
             <h2>Results</h2>
-            <span>{analysisResult ? "API Response" : "Waiting"}</span>
+            <span>{analysisResult ? "Readable" : "Waiting"}</span>
           </div>
           <div className="results-placeholder" aria-live="polite">
             {isLoading && <p>Analyzing input with the backend...</p>}
@@ -203,7 +205,11 @@ function App() {
             )}
 
             {!isLoading && analysisResult && (
-              <pre>{JSON.stringify(analysisResult, null, 2)}</pre>
+              <AnalysisResults
+                result={analysisResult}
+                showRawJson={showRawJson}
+                onToggleRawJson={() => setShowRawJson((current) => !current)}
+              />
             )}
 
             {!isLoading && !errorMessage && !analysisResult && !statusMessage && (
@@ -217,6 +223,77 @@ function App() {
       </section>
     </main>
   );
+}
+
+function AnalysisResults({ result, showRawJson, onToggleRawJson }) {
+  return (
+    <div className="analysis-results">
+      <div className="result-summary">
+        <h3>Summary</h3>
+        <p>{result.summary}</p>
+      </div>
+
+      <div className="result-meta">
+        <div>
+          <span>Confidence</span>
+          <strong className={`confidence-badge ${result.confidence}`}>
+            {result.confidence}
+          </strong>
+        </div>
+        <div>
+          <span>ROS Version Guess</span>
+          <strong>{result.ros_version_guess}</strong>
+        </div>
+      </div>
+
+      <ResultSection title="Detected Errors" items={result.detected_errors} />
+      <ResultSection title="Likely Root Causes" items={result.likely_root_causes} />
+      <ResultSection title="Recommended Fixes" items={result.recommended_fixes} />
+      <ResultSection
+        title="Verification Commands"
+        items={result.verification_commands}
+        variant="commands"
+      />
+      <ResultSection title="Related Files" items={result.related_files} />
+      <ResultSection
+        title="Next Debugging Steps"
+        items={result.next_debugging_steps}
+      />
+
+      <div className="raw-json-toggle">
+        <button type="button" className="secondary-button" onClick={onToggleRawJson}>
+          {showRawJson ? "Hide raw JSON" : "Show raw JSON"}
+        </button>
+      </div>
+
+      {showRawJson && <pre>{JSON.stringify(result, null, 2)}</pre>}
+    </div>
+  );
+}
+
+function ResultSection({ title, items, variant = "list" }) {
+  const hasItems = Array.isArray(items) && items.length > 0;
+
+  return (
+    <section className="result-section" aria-labelledby={slugify(title)}>
+      <h3 id={slugify(title)}>{title}</h3>
+      {hasItems ? (
+        <ul className={variant === "commands" ? "command-list" : undefined}>
+          {items.map((item, index) => (
+            <li key={`${title}-${item}-${index}`}>
+              {variant === "commands" ? <code>{item}</code> : item}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="empty-result">None reported.</p>
+      )}
+    </section>
+  );
+}
+
+function slugify(value) {
+  return value.toLowerCase().replace(/\s+/g, "-");
 }
 
 export default App;

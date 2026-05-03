@@ -39,7 +39,7 @@ Phase 3: Frontend MVP - in progress
 
 ## 4. Current Sub-Phase
 
-Phase 3.4: Connect frontend to backend - complete
+Phase 3.5: Display diagnosis results - complete
 
 ## 5. Completed Sub-Phases
 
@@ -66,10 +66,10 @@ Phase 3.4: Connect frontend to backend - complete
 - Phase 3.2: Added the pasted ROS error text input UI with local state, optional filename, optional ROS version hint, an Analyze button, and the required local placeholder message without backend calls or API requests.
 - Phase 3.3: Added the file upload UI with local state, multi-file selection, selected filename display, and supported file type guidance without backend calls, API requests, file reading, or real analysis behavior.
 - Phase 3.4: Connected the frontend to the backend analysis API. Text input now calls `POST /analyze/text`, file-only input calls `POST /analyze/files`, loading and request error states are shown, raw structured JSON is displayed temporarily, Vite backend URL configuration was added, and local frontend CORS origins were enabled in the backend for integration.
+- Phase 3.5: Replaced the temporary raw JSON display with beginner-friendly readable result sections for all structured response fields, copy-friendly verification command rows, confidence/ROS version metadata, and an optional `Show raw JSON` toggle.
 
 ## 6. Pending Sub-Phases
 
-- Phase 3.5: Display diagnosis results.
 - Phase 3.6: Update memory file, commit, push, and tag.
 
 ## 7. Important Decisions
@@ -289,6 +289,14 @@ Files updated in Phase 3.4:
 - `frontend/src/styles.css`
 - `docs/project_memory.md`
 
+Files updated in Phase 3.5:
+
+- `README.md`
+- `frontend/README.md`
+- `frontend/src/App.jsx`
+- `frontend/src/styles.css`
+- `docs/project_memory.md`
+
 ## 9. GitHub Status
 
 - Local Git repository initialized on branch `main`.
@@ -328,6 +336,8 @@ Files updated in Phase 3.4:
 - Test status for Phase 3.3: `npm run build` passed, `npm run` confirmed available frontend scripts, and `git diff --check` passed.
 - Phase 3.4 commit message: `Phase 3.4: connect frontend to backend analysis API`.
 - Test status for Phase 3.4: `npm run build` passed, backend `python -m pytest` passed with 26 tests, and `git diff --check` passed.
+- Phase 3.5 commit message: `Phase 3.5: add readable analysis results UI`.
+- Test status for Phase 3.5: `npm run build` passed and `git diff --check` passed.
 
 ## 10. Known Issues
 
@@ -348,14 +358,16 @@ Files updated in Phase 3.4:
 - Frontend file-only analysis calls `POST /analyze/files`.
 - Frontend prefers text analysis when both pasted text and files are provided, and shows a note that combined analysis can be added later.
 - Frontend now shows loading and request error states.
-- Frontend displays raw structured JSON temporarily; polished results display is still pending for Phase 3.5.
+- Frontend now displays readable result sections for `summary`, `detected_errors`, `likely_root_causes`, `recommended_fixes`, `verification_commands`, `confidence`, `ros_version_guess`, `related_files`, and `next_debugging_steps`.
+- Frontend keeps raw JSON hidden by default and exposes it with a `Show raw JSON` toggle for debugging.
+- Frontend verification commands are displayed as copy-friendly command rows.
 - Backend now allows local Vite frontend origins for CORS during development.
 - Backend currently has health endpoint, endpoint validation, upload handling, analyzer rule coverage, unknown/no-match, multi-rule, and response structure consistency tests.
 - No LLM behavior has been added.
 
 ## 11. Next Recommended Action
 
-Proceed to Phase 3.5: display diagnosis results.
+Proceed to Phase 3.6: update memory file, commit, push, and tag.
 
 ## 12. Session Notes
 
@@ -394,3 +406,7 @@ Proceed to Phase 3.5: display diagnosis results.
 - Phase 3.4 added local development CORS origins in the backend so the Vite frontend can call the FastAPI backend from `http://127.0.0.1:5173` or `http://localhost:5173`.
 - Phase 3.4 updated `frontend/README.md`, `backend/README.md`, and `README.md` with beginner-friendly full-stack install, start, test, and verification commands.
 - Phase 3.4 verification: `npm run build` passed in `frontend/`, backend `python -m pytest` passed with 26 tests, and `git diff --check` passed from the repository root.
+- Phase 3.5 replaced temporary raw JSON display with readable diagnosis sections for every backend response field. Summary, detected errors, likely root causes, recommended fixes, verification commands, confidence, ROS version guess, related files, and next debugging steps now display in beginner-friendly sections.
+- Phase 3.5 added a `Show raw JSON` / `Hide raw JSON` toggle so raw backend output is available for debugging but hidden by default.
+- Phase 3.5 updated `frontend/README.md` and `README.md` with beginner-friendly manual verification steps for readable results and the raw JSON toggle.
+- Phase 3.5 verification: `npm run build` passed in `frontend/`, and `git diff --check` passed from the repository root. Backend files were not changed, so backend tests were not required for this sub-phase.

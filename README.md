@@ -13,7 +13,7 @@ This project is software-first. You do not need robot hardware to use or develop
 - Phase 2: Complete
 - Phase 3: In progress
 
-Backend MVP implementation is complete. The frontend now connects to the backend analysis API and shows temporary structured JSON results.
+Backend MVP implementation is complete. The frontend now connects to the backend analysis API and shows readable structured diagnosis results.
 
 ## MVP 1
 
@@ -99,6 +99,23 @@ To check that the frontend builds:
 cd frontend
 npm run build
 ```
+
+To manually verify the full-stack analysis UI:
+
+```powershell
+cd backend
+.\.venv\Scripts\Activate.ps1
+uvicorn app.main:app --reload
+```
+
+In a second terminal:
+
+```powershell
+cd frontend
+npm run dev
+```
+
+Open `http://127.0.0.1:5173`, paste `Package 'demo_nodes_cpp' not found`, click `Analyze`, and confirm readable result sections appear. Click `Show raw JSON` to verify the optional debugging view.
 
 To run backend tests:
 

@@ -2,9 +2,9 @@
 
 This folder contains the React frontend for ROS AI Debugger.
 
-Phase 3.4 connects the frontend to the backend analysis API. The page can send pasted ROS errors to `POST /analyze/text` and selected files to `POST /analyze/files`.
+Phase 3.5 displays backend analysis responses in readable result sections. The page can send pasted ROS errors to `POST /analyze/text` and selected files to `POST /analyze/files`.
 
-Full polished result display is planned for Phase 3.5. For now, the frontend shows the structured JSON response from the backend.
+Raw JSON is hidden by default and can be shown with the `Show raw JSON` button for debugging.
 
 ## Requirements
 
@@ -121,17 +121,32 @@ Package 'demo_nodes_cpp' not found
 - Optionally enter a filename such as `terminal.txt`.
 - Optionally choose `ROS 1` or `ROS 2`.
 - Click `Analyze`.
+- Confirm readable result cards/sections appear:
+  - `Summary`
+  - `Detected Errors`
+  - `Likely Root Causes`
+  - `Recommended Fixes`
+  - `Verification Commands`
+  - `Confidence`
+  - `ROS Version Guess`
+  - `Related Files`
+  - `Next Debugging Steps`
 
 Expected result:
 
-```json
-{
-  "detected_errors": ["Missing ROS package"],
-  "confidence": "high"
-}
+```text
+Detected Errors shows Missing ROS package.
+Confidence shows high.
 ```
 
-The browser will show the full structured JSON response.
+The `Verification Commands` section shows commands in dark copy-friendly rows.
+
+To test the raw JSON toggle:
+
+- Click `Show raw JSON`.
+- Confirm the backend JSON appears.
+- Click `Hide raw JSON`.
+- Confirm the JSON is hidden again.
 
 ## Test File Analysis Manually
 
@@ -169,14 +184,12 @@ In the browser:
 
 Expected result:
 
-```json
-{
-  "detected_errors": ["Missing ROS package"],
-  "related_files": ["sample-error.log"]
-}
+```text
+Detected Errors shows Missing ROS package.
+Related Files shows sample-error.log.
 ```
 
-The browser will show the full structured JSON response.
+The browser will show the readable result sections. Raw JSON stays hidden unless you click `Show raw JSON`.
 
 Supported file types shown in the UI:
 
@@ -249,6 +262,7 @@ python -m pytest
 - The Analyze button calls the backend.
 - Pasted text is sent to `POST /analyze/text`.
 - Selected files are sent to `POST /analyze/files` when the text area is empty.
-- Temporary raw JSON response display is implemented.
+- Readable result sections are implemented for every structured response field.
+- Verification commands are shown as copy-friendly command rows.
+- Raw JSON is hidden by default and available with a toggle.
 - Loading and request error states are implemented.
-- Full polished result display is not implemented yet.

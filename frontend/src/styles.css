@@ -287,6 +287,133 @@ button:disabled {
   color: #b42318;
 }
 
+.secondary-button {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #344054;
+}
+
+.secondary-button:hover:not(:disabled) {
+  background: #f8fafc;
+  border-color: #98a2b3;
+}
+
+.analysis-results {
+  display: grid;
+  gap: 18px;
+  width: 100%;
+}
+
+.analysis-results h3 {
+  color: #182230;
+  font-size: 1rem;
+  margin: 0 0 10px;
+}
+
+.result-summary,
+.result-section {
+  border-top: 1px solid #d8dee8;
+  padding-top: 16px;
+  width: 100%;
+}
+
+.result-summary {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.result-summary p,
+.result-section p {
+  color: #475467;
+  margin-bottom: 0;
+}
+
+.result-meta {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.result-meta div {
+  border-top: 1px solid #d8dee8;
+  padding-top: 16px;
+}
+
+.result-meta span {
+  color: #667085;
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.result-meta strong {
+  color: #182230;
+}
+
+.confidence-badge {
+  border-radius: 999px;
+  display: inline-flex;
+  padding: 4px 10px;
+  text-transform: capitalize;
+}
+
+.confidence-badge.high {
+  background: #ecfdf3;
+  color: #067647;
+}
+
+.confidence-badge.medium {
+  background: #fffaeb;
+  color: #b54708;
+}
+
+.confidence-badge.low {
+  background: #fef3f2;
+  color: #b42318;
+}
+
+.result-section ul {
+  color: #344054;
+  margin: 0;
+  padding-left: 22px;
+}
+
+.result-section li + li {
+  margin-top: 8px;
+}
+
+.command-list {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  padding-left: 0;
+}
+
+.command-list li {
+  margin-top: 0;
+}
+
+.command-list code {
+  background: #111827;
+  border-radius: 6px;
+  color: #e5e7eb;
+  display: block;
+  overflow-x: auto;
+  padding: 10px 12px;
+  white-space: pre;
+}
+
+.empty-result {
+  color: #667085;
+  font-style: italic;
+}
+
+.raw-json-toggle {
+  border-top: 1px solid #d8dee8;
+  padding-top: 16px;
+}
+
 pre {
   background: #111827;
   border-radius: 6px;
@@ -330,6 +457,10 @@ pre {
   }
 
   .metadata-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .result-meta {
     grid-template-columns: 1fr;
   }
 }
