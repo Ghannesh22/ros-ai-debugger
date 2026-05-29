@@ -317,7 +317,7 @@ Files updated in Phase 3.6:
 - Local Git identity configured for the authenticated GitHub account.
 - GitHub remote configured as `origin`.
 - GitHub repository: `https://github.com/Ghannesh22/ros-ai-debugger`.
-- Repository visibility: private.
+- Repository visibility: public.
 - First checkpoint commit message: `Phase 0 complete: planning, structure, documentation, and memory system`.
 - First release-foundation tag created: `v0.1.0-project-foundation`.
 - Branch `main` pushed to GitHub.
@@ -435,3 +435,4 @@ Proceed to Phase 4.1: add example ROS 1 errors.
 - Phase 3 achievement summary: the project now has a React with Vite frontend that accepts pasted ROS errors, accepts ROS-related text file uploads, calls the FastAPI backend, displays loading and request errors, renders beginner-friendly analysis result sections, and keeps raw JSON available behind a toggle.
 - Phase 3 GitHub checkpoint: branch `main` pushed and tag `v0.4.0-frontend-mvp` pushed for the Frontend MVP.
 - Frontend implementation must not continue into Phase 4 until Phase 4 is explicitly requested.
+- Repository visibility changed from private to public on GitHub after a quick local check for obvious committed secrets or credential files. GitHub now reports `Ghannesh22/ros-ai-debugger` as `PUBLIC`.
